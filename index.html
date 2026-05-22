@@ -201,6 +201,25 @@
         </div>
       </div>
 
+      <!-- Platea de fundación -->
+      <div class="sec-card">
+        <div class="sec-toggle" onclick="toggleSec('platea')">
+          <div class="stitle">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2" y="18" width="20" height="4" rx="1"/><rect x="4" y="13" width="16" height="5"/><line x1="6" y1="13" x2="6" y2="7"/><line x1="12" y1="13" x2="12" y2="7"/><line x1="18" y1="13" x2="18" y2="7"/></svg>
+            Platea de fundación
+          </div>
+          <input type="checkbox" class="toggle-check" id="chk-platea" aria-label="Activar platea de fundación" onclick="event.stopPropagation();toggleSec('platea',this.checked)"/>
+        </div>
+        <div class="sec-body" id="sec-platea" style="display:none">
+          <div class="fg3" style="margin-bottom:8px">
+            <div class="field"><label for="plat_largo">Largo (m)</label><input type="number" id="plat_largo" value="" inputmode="decimal"/></div>
+            <div class="field"><label for="plat_ancho">Ancho (m)</label><input type="number" id="plat_ancho" value="" inputmode="decimal"/></div>
+            <div class="field"><label for="plat_espesor">Espesor (cm)</label><input type="number" id="plat_espesor" value="" inputmode="decimal"/><span class="hint">Típico: 15–20 cm</span></div>
+          </div>
+          <div class="hint" style="margin-top:4px">Hormigón H-21 elaborado · Mallas de acero 3×2 m (Ø6 c/15 cm doble sentido)</div>
+        </div>
+      </div>
+
       <!-- Cimientos -->
       <div class="sec-card">
         <div class="sec-toggle" onclick="toggleSec('cim')">
@@ -212,18 +231,11 @@
         </div>
         <div class="sec-body" id="sec-cim" style="display:none">
           <div class="fg3" style="margin-bottom:8px">
-            <div class="field"><label for="viga_long">Long. total vigas (m)</label><input type="number" id="viga_long" value="" inputmode="decimal"/><span class="hint">Perímetro + ejes int.</span></div>
-            <div class="field"><label for="viga_ancho">Ancho (m)</label><input type="number" id="viga_ancho" value="" step="0.05" inputmode="decimal"/></div>
-            <div class="field"><label for="viga_prof">Profundidad (m)</label><input type="number" id="viga_prof" value="" step="0.05" inputmode="decimal"/></div>
+            <div class="field"><label for="cim_long">Long. total (m)</label><input type="number" id="cim_long" value="" inputmode="decimal"/><span class="hint">Perímetro + ejes int.</span></div>
+            <div class="field"><label for="cim_ancho">Ancho (m)</label><input type="number" id="cim_ancho" value="" step="0.05" inputmode="decimal"/></div>
+            <div class="field"><label for="cim_prof">Profundidad (m)</label><input type="number" id="cim_prof" value="" step="0.05" inputmode="decimal"/></div>
           </div>
-          <div class="field">
-            <label for="tipo_cim">Tipo de cimiento</label>
-            <select id="tipo_cim">
-              <option value="hc">Hormigón ciclópeo</option>
-              <option value="hh" selected>Hormigón H-21 con hierro</option>
-              <option value="pm">Platea de hormigón</option>
-            </select>
-          </div>
+          <div class="hint" style="margin-top:4px">Hormigón pobre con granza · Cemento de albañilería + arena + granza + refuerzo Portland</div>
         </div>
       </div>
 
@@ -404,35 +416,44 @@ function calcular(){
     if(ex)ex.qty+=qty; else res[sec].push({mat,qty,unit,nota:nota||''});
   }
 
-  /* CIMIENTOS */
+  /* PLATEA DE FUNDACIÓN */
+  if(chk('platea')){
+    const largo   = n('plat_largo');
+    const ancho   = n('plat_ancho');
+    const esp_cm  = n('plat_espesor');
+    const esp_m   = esp_cm / 100;
+    const supPlat = largo * ancho;
+    const volPlat = supPlat * esp_m;
+
+    // Hormigón H-21 elaborado (m³ exacto, sin desperdicio por bomba)
+    add('Platea de fundación','Hormigón elaborado H-21',parseFloat(volPlat.toFixed(2)),'m³','Volumen neto — pedir según plano');
+
+    // Mallas de acero 3×2 m (Ø6 c/15 cm) — una sola capa, 10% solapes
+    // Área de malla = 3×2 = 6 m²
+    const mallasTot = Math.ceil(supPlat / 6 * 1.10);
+    add('Platea de fundación','Malla de acero electrosoldada Ø6 c/15 cm (panel 3×2 m)',mallasTot,'panel','Una capa — 10% solapes inc.');
+
+    // Separadores / soportes para malla inferior (1 cada 0.5 m²)
+    add('Platea de fundación','Separador plástico malla inferior',Math.ceil(supPlat * 2),'unidad','1 cada 0,5 m²');
+
+    // Alambre recocido para atar mallas
+    add('Platea de fundación','Alambre recocido',Math.ceil(supPlat * 0.15),'kg','Atado de mallas');
+  }
+
+  /* CIMIENTOS — Hormigón pobre con granza */
   if(chk('cim')){
-    const vol=n('viga_long')*n('viga_ancho')*n('viga_prof');
-    const tipo=s('tipo_cim');
-    if(tipo==='hc'){
-      add('Cimientos','Cemento Portland (bolsa 25 kg)',bol25(vol*180*D),'bolsa','~180 kg/m³ hormigón ciclópeo');
-      add('Cimientos','Arena gruesa',parseFloat((vol*0.5*D).toFixed(2)),'m³');
-      add('Cimientos','Piedra partida 6/20',parseFloat((vol*0.85).toFixed(2)),'m³','Incluye piedra ciclópea');
-    } else if(tipo==='hh'){
-      add('Cimientos','Cemento Portland (bolsa 25 kg)',bol25(vol*300*D),'bolsa','~300 kg/m³ — H-21');
-      add('Cimientos','Arena gruesa',parseFloat((vol*0.55*D).toFixed(2)),'m³');
-      add('Cimientos','Piedra partida 6/20',parseFloat((vol*0.75).toFixed(2)),'m³');
-      add('Cimientos','Hierro Ø12 mm (varilla 12 m)',Math.ceil(n('viga_long')*4*1.05),'unidad','4 long. + 5% empalmes');
-      const pe=(n('viga_ancho')*2+n('viga_prof')*2)+0.2;
-      add('Cimientos','Hierro Ø8 mm (varilla 12 m)',Math.ceil(n('viga_long')/0.2*pe/12*D),'unidad','Estribos c/20 cm');
-      add('Cimientos','Alambre recocido',Math.ceil(n('viga_long')*0.3),'kg');
-    } else {
-      const vP=n('sup_total')*0.15;
-      add('Cimientos','Cemento Portland (bolsa 25 kg)',bol25(vP*300*D),'bolsa','Platea e=15 cm — H-21');
-      add('Cimientos','Arena gruesa',parseFloat((vP*0.55).toFixed(2)),'m³');
-      add('Cimientos','Piedra partida 6/20',parseFloat((vP*0.75).toFixed(2)),'m³');
-      add('Cimientos','Hierro Ø10 mm malla',Math.ceil(n('sup_total')*7.85*D),'kg','Malla c/20 cm doble sentido');
-      add('Cimientos','Alambre recocido',Math.ceil(n('sup_total')*0.2),'kg');
-    }
-    const col=n('cant_col');
-    if(col>0){
-      add('Cimientos','Hierro Ø12 mm (varilla 12 m)',Math.ceil(col*4*n('alt_muros')/12*D),'unidad','Columnas 4Ø12');
-      add('Cimientos','Hierro Ø6 mm (varilla 12 m)',Math.ceil(col*n('alt_muros')/0.2*0.8/12*D),'unidad','Estribos col. c/20 cm');
-    }
+    // Volumen total de la zanja
+    const volCim = n('cim_long') * n('cim_ancho') * n('cim_prof');
+
+    // ── Hormigón pobre: 180 kg cem.albañilería + 25 kg Portland por m³
+    // Arena gruesa: ~0.45 m³/m³ · Granza 10/20: ~0.65 m³/m³
+    add('Cimientos','Cemento de albañilería (bolsa 25 kg)',bol25(volCim * 180 * D),'bolsa','~180 kg/m³ horm. pobre');
+    add('Cimientos','Cemento Portland (bolsa 25 kg)',bol25(volCim * 25 * D),'bolsa','~25 kg/m³ refuerzo Portland');
+    add('Cimientos','Arena gruesa',parseFloat((volCim * 0.45 * D).toFixed(2)),'m³','Horm. pobre');
+    add('Cimientos','Granza / piedra partida 10/20',parseFloat((volCim * 0.65 * D).toFixed(2)),'m³','Horm. pobre');
+
+    // ── Agua (referencia)
+    add('Cimientos','Agua (referencia)',parseFloat((volCim * 0.18).toFixed(2)),'m³','~180 lt/m³ de hormigón');
   }
 
   /* MAMPOSTERÍA */
@@ -572,6 +593,7 @@ function calcular(){
   const proj=document.getElementById('projName').value||'Proyecto sin nombre';
   const today=new Date().toLocaleDateString('es-AR',{day:'2-digit',month:'2-digit',year:'numeric'});
   const secIcons={
+    'Platea de fundación':'M2 20h20M4 20V14h16v6M6 14V10h12v4M8 10V6h8v4',
     Cimientos:'M3 20h18M5 20V10l7-7 7 7v10M9 20v-6h6v6',
     Mampostería:'M2 6h9v6H2zM13 6h9v6h-9zM2 16h9v6H2zM13 16h9v6h-9z',
     Revoques:'M3 5h18v14H3zM3 10h18M8 5v14',
