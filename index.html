@@ -22,14 +22,57 @@
       --border:rgba(255,255,255,0.12);--border2:rgba(255,255,255,0.22);
     }
   }
-  body{background:var(--bg3);color:var(--text);font-family:var(--font);font-size:15px;min-height:100vh;padding:1rem}
+  body{background:var(--bg3);color:var(--text);font-family:var(--font);font-size:15px;min-height:100vh;padding:0}
   .app{max-width:680px;margin:0 auto}
 
-  /* HEADER */
-  .header-card{background:#0a0a0a;border-radius:var(--radius-lg);padding:1rem 1.25rem;margin-bottom:1rem;display:flex;align-items:center;justify-content:space-between;gap:12px}
-  .header-right{text-align:right}
-  .header-right .app-title{font-size:14px;font-weight:500;color:#ccc}
-  .header-right .tagline{font-size:11px;color:#666;margin-top:2px}
+  /* HEADER STICKY SAAS */
+  .site-header{
+    position:sticky;top:0;z-index:100;
+    background:rgba(8,8,12,0.92);
+    backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+    border-bottom:1px solid rgba(255,255,255,0.08);
+    padding:0;
+    margin-bottom:1.25rem;
+  }
+  .header-inner{
+    max-width:720px;margin:0 auto;
+    display:flex;align-items:center;justify-content:space-between;
+    padding:0.7rem 1.25rem;
+    gap:12px;
+  }
+  .header-logo-wrap{display:flex;align-items:center;gap:0}
+  .header-logo-wrap img{
+    height:44px;
+    width:auto;
+    object-fit:contain;
+    display:block;
+    image-rendering:-webkit-optimize-contrast;
+    image-rendering:crisp-edges;
+  }
+  .header-badge{
+    display:flex;flex-direction:column;align-items:flex-end;gap:2px;
+  }
+  .header-badge .app-label{
+    font-size:11px;font-weight:600;letter-spacing:.08em;
+    text-transform:uppercase;color:rgba(255,255,255,0.45);
+    line-height:1;
+  }
+  .header-badge .app-pill{
+    display:inline-flex;align-items:center;gap:5px;
+    background:rgba(24,95,165,0.25);border:1px solid rgba(24,95,165,0.5);
+    border-radius:20px;padding:2px 10px;
+    font-size:11px;font-weight:500;color:#5ba3e0;line-height:1.4;
+  }
+  .header-badge .app-pill::before{
+    content:'';display:inline-block;
+    width:6px;height:6px;border-radius:50%;
+    background:#4ade80;box-shadow:0 0 5px #4ade80;
+  }
+  @media(max-width:420px){
+    .header-inner{padding:0.6rem 1rem;}
+    .header-logo-wrap img{height:36px;}
+    .header-badge .app-label{font-size:10px;}
+  }
 
   /* CARD */
   .card{background:var(--bg);border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:1.25rem;margin-bottom:1rem}
@@ -90,7 +133,7 @@
   /* PRINT */
   @media print{
     body{background:#fff;padding:0}
-    .header-card{background:#000 !important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+    .site-header{background:#000 !important;position:static;-webkit-print-color-adjust:exact;print-color-adjust:exact}
     .tabs,.calc-btn,.footer-btns{display:none!important}
     #tab-dim{display:none!important}
     #tab-res{display:block!important}
@@ -100,13 +143,20 @@
 </style>
 </head>
 <body>
-<div class="app">
+<div style="padding:1rem"><div class="app">
 
-  <!-- HEADER -->
-  <div class="header-card">
-    <img src="data:image/webp;base64,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" alt="Medina Materiales" style="height:52px;object-fit:contain;display:block"/>
-    <div class="header-right">
-      <div class="app-title">Cómputo de obras</div>
+  <!-- HEADER STICKY -->
+  <header class="site-header" role="banner">
+    <div class="header-inner">
+      <div class="header-logo-wrap">
+        <img src="data:image/png;base64,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" alt="Medina Materiales" />
+      </div>
+      <div class="header-badge">
+        <span class="app-label">Herramienta profesional</span>
+        <span class="app-pill">Cómputo de obras</span>
+      </div>
+    </div>
+  </header>
       <div class="tagline">Medidas comerciales argentinas</div>
     </div>
   </div>
@@ -141,12 +191,12 @@
         <div class="fg2">
           <div class="field">
             <label for="sup_total">Superficie cubierta total (m²)</label>
-            <input type="number" id="sup_total" value="60" min="1" inputmode="decimal"/>
+            <input type="number" id="sup_total" value="" min="1" inputmode="decimal"/>
             <span class="hint">Total de planta incluyendo muros</span>
           </div>
           <div class="field">
             <label for="alt_muros">Altura de muros (m)</label>
-            <input type="number" id="alt_muros" value="2.6" step="0.1" min="2" inputmode="decimal"/>
+            <input type="number" id="alt_muros" value="" step="0.1" min="2" inputmode="decimal"/>
           </div>
         </div>
       </div>
@@ -158,13 +208,13 @@
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2" y="14" width="20" height="6" rx="1"/><rect x="6" y="8" width="12" height="6" rx="1"/><rect x="10" y="2" width="4" height="6" rx="1"/></svg>
             Cimientos
           </div>
-          <input type="checkbox" class="toggle-check" id="chk-cim" checked aria-label="Activar cimientos" onclick="event.stopPropagation();toggleSec('cim',this.checked)"/>
+          <input type="checkbox" class="toggle-check" id="chk-cim" aria-label="Activar cimientos" onclick="event.stopPropagation();toggleSec('cim',this.checked)"/>
         </div>
-        <div class="sec-body" id="sec-cim">
+        <div class="sec-body" id="sec-cim" style="display:none">
           <div class="fg3" style="margin-bottom:8px">
-            <div class="field"><label for="viga_long">Long. total vigas (m)</label><input type="number" id="viga_long" value="40" inputmode="decimal"/><span class="hint">Perímetro + ejes int.</span></div>
-            <div class="field"><label for="viga_ancho">Ancho (m)</label><input type="number" id="viga_ancho" value="0.4" step="0.05" inputmode="decimal"/></div>
-            <div class="field"><label for="viga_prof">Profundidad (m)</label><input type="number" id="viga_prof" value="0.5" step="0.05" inputmode="decimal"/></div>
+            <div class="field"><label for="viga_long">Long. total vigas (m)</label><input type="number" id="viga_long" value="" inputmode="decimal"/><span class="hint">Perímetro + ejes int.</span></div>
+            <div class="field"><label for="viga_ancho">Ancho (m)</label><input type="number" id="viga_ancho" value="" step="0.05" inputmode="decimal"/></div>
+            <div class="field"><label for="viga_prof">Profundidad (m)</label><input type="number" id="viga_prof" value="" step="0.05" inputmode="decimal"/></div>
           </div>
           <div class="field">
             <label for="tipo_cim">Tipo de cimiento</label>
@@ -184,11 +234,11 @@
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2" y="4" width="9" height="6" rx="1"/><rect x="13" y="4" width="9" height="6" rx="1"/><rect x="2" y="14" width="9" height="6" rx="1"/><rect x="13" y="14" width="9" height="6" rx="1"/></svg>
             Mampostería
           </div>
-          <input type="checkbox" class="toggle-check" id="chk-mamp" checked aria-label="Activar mampostería" onclick="event.stopPropagation();toggleSec('mamp',this.checked)"/>
+          <input type="checkbox" class="toggle-check" id="chk-mamp" aria-label="Activar mampostería" onclick="event.stopPropagation();toggleSec('mamp',this.checked)"/>
         </div>
-        <div class="sec-body" id="sec-mamp">
+        <div class="sec-body" id="sec-mamp" style="display:none">
           <div class="fg2" style="margin-bottom:8px">
-            <div class="field"><label for="muro_long">Long. total de muros (m)</label><input type="number" id="muro_long" value="40" inputmode="decimal"/></div>
+            <div class="field"><label for="muro_long">Long. total de muros (m)</label><input type="number" id="muro_long" value="" inputmode="decimal"/></div>
             <div class="field">
               <label for="tipo_ladrillo">Tipo de ladrillo</label>
               <select id="tipo_ladrillo">
@@ -200,8 +250,8 @@
             </div>
           </div>
           <div class="fg2">
-            <div class="field"><label for="sup_aberturas">Sup. aberturas (m²)</label><input type="number" id="sup_aberturas" value="12" inputmode="decimal"/><span class="hint">Puertas + ventanas</span></div>
-            <div class="field"><label for="cant_col">Columnas de horm. (cant.)</label><input type="number" id="cant_col" value="8" inputmode="numeric"/></div>
+            <div class="field"><label for="sup_aberturas">Sup. aberturas (m²)</label><input type="number" id="sup_aberturas" value="" inputmode="decimal"/><span class="hint">Puertas + ventanas</span></div>
+            <div class="field"><label for="cant_col">Columnas de horm. (cant.)</label><input type="number" id="cant_col" value="" inputmode="numeric"/></div>
           </div>
         </div>
       </div>
@@ -213,12 +263,12 @@
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>
             Revoques
           </div>
-          <input type="checkbox" class="toggle-check" id="chk-rev" checked aria-label="Activar revoques" onclick="event.stopPropagation();toggleSec('rev',this.checked)"/>
+          <input type="checkbox" class="toggle-check" id="chk-rev" aria-label="Activar revoques" onclick="event.stopPropagation();toggleSec('rev',this.checked)"/>
         </div>
-        <div class="sec-body" id="sec-rev">
+        <div class="sec-body" id="sec-rev" style="display:none">
           <div class="fg2" style="margin-bottom:8px">
-            <div class="field"><label for="rev_ext">Sup. revocar exterior (m²)</label><input type="number" id="rev_ext" value="80" inputmode="decimal"/></div>
-            <div class="field"><label for="rev_int">Sup. revocar interior (m²)</label><input type="number" id="rev_int" value="180" inputmode="decimal"/></div>
+            <div class="field"><label for="rev_ext">Sup. revocar exterior (m²)</label><input type="number" id="rev_ext" value="" inputmode="decimal"/></div>
+            <div class="field"><label for="rev_int">Sup. revocar interior (m²)</label><input type="number" id="rev_int" value="" inputmode="decimal"/></div>
           </div>
           <div class="field">
             <label for="tipo_rev">Terminación interior</label>
@@ -238,11 +288,11 @@
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2" y="2" width="9" height="9"/><rect x="13" y="2" width="9" height="9"/><rect x="2" y="13" width="9" height="9"/><rect x="13" y="13" width="9" height="9"/></svg>
             Contrapisos y pisos
           </div>
-          <input type="checkbox" class="toggle-check" id="chk-piso" checked aria-label="Activar pisos" onclick="event.stopPropagation();toggleSec('piso',this.checked)"/>
+          <input type="checkbox" class="toggle-check" id="chk-piso" aria-label="Activar pisos" onclick="event.stopPropagation();toggleSec('piso',this.checked)"/>
         </div>
-        <div class="sec-body" id="sec-piso">
+        <div class="sec-body" id="sec-piso" style="display:none">
           <div class="fg2">
-            <div class="field"><label for="sup_piso">Superficie de pisos (m²)</label><input type="number" id="sup_piso" value="55" inputmode="decimal"/></div>
+            <div class="field"><label for="sup_piso">Superficie de pisos (m²)</label><input type="number" id="sup_piso" value="" inputmode="decimal"/></div>
             <div class="field">
               <label for="tipo_piso">Tipo de piso</label>
               <select id="tipo_piso">
@@ -262,11 +312,11 @@
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 12L12 3l9 9"/><path d="M9 21V12h6v9"/></svg>
             Cubierta / techo
           </div>
-          <input type="checkbox" class="toggle-check" id="chk-cub" checked aria-label="Activar cubierta" onclick="event.stopPropagation();toggleSec('cub',this.checked)"/>
+          <input type="checkbox" class="toggle-check" id="chk-cub" aria-label="Activar cubierta" onclick="event.stopPropagation();toggleSec('cub',this.checked)"/>
         </div>
-        <div class="sec-body" id="sec-cub">
+        <div class="sec-body" id="sec-cub" style="display:none">
           <div class="fg2">
-            <div class="field"><label for="sup_techo">Superficie de techo (m²)</label><input type="number" id="sup_techo" value="65" inputmode="decimal"/><span class="hint">Incluir aleros</span></div>
+            <div class="field"><label for="sup_techo">Superficie de techo (m²)</label><input type="number" id="sup_techo" value="" inputmode="decimal"/><span class="hint">Incluir aleros</span></div>
             <div class="field">
               <label for="tipo_techo">Tipo de cubierta</label>
               <select id="tipo_techo">
@@ -287,13 +337,13 @@
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 2v6m0 0C9 8 6 10 6 14a6 6 0 0012 0c0-4-3-6-6-6z"/></svg>
             Sanitaria
           </div>
-          <input type="checkbox" class="toggle-check" id="chk-san" checked aria-label="Activar sanitaria" onclick="event.stopPropagation();toggleSec('san',this.checked)"/>
+          <input type="checkbox" class="toggle-check" id="chk-san" aria-label="Activar sanitaria" onclick="event.stopPropagation();toggleSec('san',this.checked)"/>
         </div>
-        <div class="sec-body" id="sec-san">
+        <div class="sec-body" id="sec-san" style="display:none">
           <div class="fg3">
-            <div class="field"><label for="cant_ban">Baños completos</label><input type="number" id="cant_ban" value="1" min="0" inputmode="numeric"/></div>
-            <div class="field"><label for="cant_coc">Cocina / lavadero</label><input type="number" id="cant_coc" value="1" min="0" inputmode="numeric"/></div>
-            <div class="field"><label for="long_col">Long. colectora (m)</label><input type="number" id="long_col" value="15" inputmode="decimal"/></div>
+            <div class="field"><label for="cant_ban">Baños completos</label><input type="number" id="cant_ban" value="" min="0" inputmode="numeric"/></div>
+            <div class="field"><label for="cant_coc">Cocina / lavadero</label><input type="number" id="cant_coc" value="" min="0" inputmode="numeric"/></div>
+            <div class="field"><label for="long_col">Long. colectora (m)</label><input type="number" id="long_col" value="" inputmode="decimal"/></div>
           </div>
         </div>
       </div>
@@ -305,12 +355,12 @@
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
             Instalación eléctrica
           </div>
-          <input type="checkbox" class="toggle-check" id="chk-elec" checked aria-label="Activar eléctrica" onclick="event.stopPropagation();toggleSec('elec',this.checked)"/>
+          <input type="checkbox" class="toggle-check" id="chk-elec" aria-label="Activar eléctrica" onclick="event.stopPropagation();toggleSec('elec',this.checked)"/>
         </div>
-        <div class="sec-body" id="sec-elec">
+        <div class="sec-body" id="sec-elec" style="display:none">
           <div class="fg2">
-            <div class="field"><label for="cant_amb">Cantidad de ambientes</label><input type="number" id="cant_amb" value="4" min="1" inputmode="numeric"/></div>
-            <div class="field"><label for="bocas_amb">Bocas aprox. por ambiente</label><input type="number" id="bocas_amb" value="5" min="1" inputmode="numeric"/></div>
+            <div class="field"><label for="cant_amb">Cantidad de ambientes</label><input type="number" id="cant_amb" value="" min="1" inputmode="numeric"/></div>
+            <div class="field"><label for="bocas_amb">Bocas aprox. por ambiente</label><input type="number" id="bocas_amb" value="" min="1" inputmode="numeric"/></div>
           </div>
         </div>
       </div>
@@ -325,7 +375,7 @@
     <div id="tab-res" style="display:none"></div>
 
   </div><!-- end .card -->
-</div><!-- end .app -->
+</div></div><!-- end .app -->
 
 <script>
 const D=1.10;
