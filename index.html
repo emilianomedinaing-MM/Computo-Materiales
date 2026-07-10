@@ -12,6 +12,7 @@
     --text:#111;--text2:#555;--text3:#888;
     --border:rgba(0,0,0,0.13);--border2:rgba(0,0,0,0.22);
     --blue:#185FA5;--blue-d:#0C447C;
+    --green:#16a34a;--amber:#d97706;--red:#dc2626;
     --radius:10px;--radius-lg:14px;
     --font:'Segoe UI',system-ui,-apple-system,sans-serif;
   }
@@ -25,54 +26,18 @@
   body{background:var(--bg3);color:var(--text);font-family:var(--font);font-size:15px;min-height:100vh;padding:0}
   .app{max-width:680px;margin:0 auto}
 
-  /* HEADER STICKY SAAS */
-  .site-header{
-    position:sticky;top:0;z-index:100;
-    background:rgba(8,8,12,0.92);
-    backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
-    border-bottom:1px solid rgba(255,255,255,0.08);
-    padding:0;
-    margin-bottom:1.25rem;
-  }
-  .header-inner{
-    max-width:720px;margin:0 auto;
-    display:flex;align-items:center;justify-content:space-between;
-    padding:0.7rem 1.25rem;
-    gap:12px;
-  }
-  .header-logo-wrap{display:flex;align-items:center;gap:0}
-  .header-logo-wrap img{
-    height:44px;
-    width:auto;
-    object-fit:contain;
-    display:block;
-    image-rendering:-webkit-optimize-contrast;
-    image-rendering:crisp-edges;
-  }
-  .header-badge{
-    display:flex;flex-direction:column;align-items:flex-end;gap:2px;
-  }
-  .header-badge .app-label{
-    font-size:11px;font-weight:600;letter-spacing:.08em;
-    text-transform:uppercase;color:rgba(255,255,255,0.45);
-    line-height:1;
-  }
-  .header-badge .app-pill{
-    display:inline-flex;align-items:center;gap:5px;
-    background:rgba(24,95,165,0.25);border:1px solid rgba(24,95,165,0.5);
-    border-radius:20px;padding:2px 10px;
-    font-size:11px;font-weight:500;color:#5ba3e0;line-height:1.4;
-  }
-  .header-badge .app-pill::before{
-    content:'';display:inline-block;
-    width:6px;height:6px;border-radius:50%;
-    background:#4ade80;box-shadow:0 0 5px #4ade80;
-  }
-  @media(max-width:420px){
-    .header-inner{padding:0.6rem 1rem;}
-    .header-logo-wrap img{height:36px;}
-    .header-badge .app-label{font-size:10px;}
-  }
+  /* HEADER */
+  .site-header{position:sticky;top:0;z-index:100;background:rgba(8,8,12,0.92);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,0.08);padding:0;margin-bottom:1.25rem}
+  .header-inner{max-width:720px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:0.7rem 1.25rem;gap:12px}
+  .header-logo-wrap img{height:44px;width:auto;object-fit:contain;display:block;image-rendering:-webkit-optimize-contrast;image-rendering:crisp-edges}
+  .header-right{display:flex;align-items:center;gap:10px}
+  .header-badge{display:flex;flex-direction:column;align-items:flex-end;gap:2px}
+  .header-badge .app-label{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,0.45);line-height:1}
+  .header-badge .app-pill{display:inline-flex;align-items:center;gap:5px;background:rgba(24,95,165,0.25);border:1px solid rgba(24,95,165,0.5);border-radius:20px;padding:2px 10px;font-size:11px;font-weight:500;color:#5ba3e0;line-height:1.4}
+  .header-badge .app-pill::before{content:'';display:inline-block;width:6px;height:6px;border-radius:50%;background:#4ade80;box-shadow:0 0 5px #4ade80}
+  .btn-params{background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);color:#ccc;font-size:12px;font-family:var(--font);padding:5px 12px;border-radius:20px;cursor:pointer;transition:all .15s;white-space:nowrap}
+  .btn-params:hover{background:rgba(255,255,255,0.15);color:#fff}
+  @media(max-width:420px){.header-inner{padding:0.6rem 1rem}.header-logo-wrap img{height:36px}.header-badge .app-label{font-size:10px}.btn-params{font-size:11px;padding:4px 9px}}
 
   /* CARD */
   .card{background:var(--bg);border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:1.25rem;margin-bottom:1rem}
@@ -130,267 +95,540 @@
   .footer-btns button:hover{background:var(--bg3)}
   .footer-btns button svg{vertical-align:-3px;margin-right:5px}
 
+  /* PARÁMETROS */
+  .params-overlay{position:fixed;inset:0;z-index:200;background:rgba(0,0,0,0.5);display:flex;align-items:flex-start;justify-content:center;padding:1rem;overflow-y:auto}
+  .params-modal{background:var(--bg);border-radius:var(--radius-lg);width:100%;max-width:660px;margin:auto;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,0.3)}
+  .params-header{background:var(--blue);color:#fff;padding:1rem 1.25rem;display:flex;align-items:center;justify-content:space-between}
+  .params-header h2{font-size:16px;font-weight:600;margin:0}
+  .params-close{background:none;border:none;color:#fff;font-size:22px;cursor:pointer;line-height:1;padding:0 4px;opacity:.8}
+  .params-close:hover{opacity:1}
+  .params-body{padding:1rem 1.25rem;max-height:70vh;overflow-y:auto}
+  .params-cat{margin-bottom:1rem;border:0.5px solid var(--border);border-radius:var(--radius);overflow:hidden}
+  .params-cat-hdr{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--bg2);cursor:pointer;user-select:none;font-size:13px;font-weight:500;color:var(--text)}
+  .params-cat-hdr:hover{background:var(--bg3)}
+  .params-cat-body{border-top:0.5px solid var(--border)}
+  .params-row{display:grid;grid-template-columns:1fr 110px 60px;align-items:center;gap:8px;padding:7px 14px;border-bottom:0.5px solid var(--border);font-size:13px}
+  .params-row:last-child{border-bottom:none}
+  .params-row label{color:var(--text);line-height:1.3}
+  .params-row .p-sub{font-size:11px;color:var(--text3);display:block}
+  .params-row input{font-size:13px;padding:5px 8px;border:0.5px solid var(--border2);border-radius:8px;background:var(--bg2);color:var(--text);width:100%;outline:none;text-align:right}
+  .params-row input:focus{border-color:var(--blue)}
+  .params-row input.modified{border-color:var(--amber);background:rgba(217,119,6,0.07)}
+  .params-row input.error{border-color:var(--red);background:rgba(220,38,38,0.07)}
+  .params-unit{font-size:11px;color:var(--text3);text-align:left}
+  .params-footer{padding:1rem 1.25rem;border-top:0.5px solid var(--border);display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+  .params-footer .save-info{flex:1;font-size:12px;color:var(--text3)}
+  .btn-save{padding:9px 20px;font-size:13px;font-weight:600;cursor:pointer;border-radius:var(--radius);border:none;background:var(--blue);color:#fff;font-family:var(--font);transition:background .15s}
+  .btn-save:hover{background:var(--blue-d)}
+  .btn-save.saved{background:var(--green)}
+  .btn-reset{padding:9px 16px;font-size:13px;cursor:pointer;border-radius:var(--radius);border:0.5px solid var(--border2);background:var(--bg2);color:var(--text);font-family:var(--font);transition:background .15s}
+  .btn-reset:hover{background:var(--bg3)}
+  .pwd-wrap{padding:2rem 1.25rem;text-align:center}
+  .pwd-wrap h3{font-size:15px;font-weight:500;margin-bottom:0.75rem;color:var(--text)}
+  .pwd-wrap input{font-size:14px;padding:8px 12px;border:0.5px solid var(--border2);border-radius:var(--radius);background:var(--bg2);color:var(--text);width:100%;max-width:280px;outline:none;margin-bottom:0.75rem;display:block;margin-left:auto;margin-right:auto}
+  .pwd-wrap input:focus{border-color:var(--blue)}
+  .pwd-err{font-size:12px;color:var(--red);margin-top:-0.5rem;margin-bottom:0.75rem}
+  .btn-login{padding:9px 28px;font-size:13px;font-weight:600;cursor:pointer;border-radius:var(--radius);border:none;background:var(--blue);color:#fff;font-family:var(--font)}
+
   /* PRINT */
   @media print{
     body{background:#fff;padding:0}
     .site-header{background:#000 !important;position:static;-webkit-print-color-adjust:exact;print-color-adjust:exact}
-    .tabs,.calc-btn,.footer-btns{display:none!important}
+    .tabs,.calc-btn,.footer-btns,.btn-params{display:none!important}
     #tab-dim{display:none!important}
     #tab-res{display:block!important}
     .card,.sec-card{border:0.5px solid #ccc}
     .res-qty{background:#eee;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+    .params-overlay{display:none!important}
   }
 </style>
 </head>
 <body>
-<div style="padding:1rem"><div class="app">
+<div style="padding:0"><div class="app">
 
-  <!-- HEADER STICKY -->
-  <header class="site-header" role="banner">
-    <div class="header-inner">
-      <div class="header-logo-wrap">
-        <img src="data:image/png;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDAAUDBAQEAwUEBAQFBQUGBwwIBwcHBw8LCwkMEQ8SEhEPERETFhwXExQaFRERGCEYGh0dHx8fExciJCIeJBweHx7/2wBDAQUFBQcGBw4ICA4eFBEUHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh7/wAARCAAyAJYDASIAAhEBAxEB/8QAGwABAAIDAQEAAAAAAAAAAAAAAAQFAQIDBgj/xAAyEAABBAEDAwEGBQQDAAAAAAABAAIDBBEFEiETMVFBBiJhcYGRFDIzNcFDsdHwcqHx/8QAGwEAAQUBAQAAAAAAAAAAAAAAAAECAwQFBgf/xAAwEQABAwMDAgUCBQUAAAAAAAABAgMRAAQhBRIxQVEGEyJhcTKhFEKBkbFjcoLB8P/aAAwDAQACEQMRAD8A+MkRSKFZ1qwIxw0cuPgKxa2rt28lhkSpRgCkUoJEmo6K3l06lHF1XTybM43Dlcm19Nd+WeZ3yaf8LoLjwleWygl5xtJInLiRg8HniokvpVwD+1VqK1jpUHyiJs0u93YFuP4UNsDTqH4fJ279ufVU7nw/dMIQvclQWraClQUN3YxxzTg6CSKjIrPUtNbWr9WNz3YPOfCxpmnNswGWRzmjOBhWT4S1QaiNO2DzCN3IiO88e3zim+ejZv6VWorGChHJfmrl7w1g4Pqt3U9OaSDcII9MhKz4Tv3Wi7KEgKKfUtKcpMGJOaC+kGKq0Vhp1KGxDJJJI5oYe48LqNNqzNP4a1ucPQ4KLXwlqV0wh9oJO8EpG5IUYMYBMnigvoSSDVUinUaPVtSQTlzSwZ4XSlQinmnY57wI3YGPXuoLTwzqF2W0toy4VJEmMoEqB7RSqeQmZ6VWopV+oa1kR5JY78pW+qVGVHxhjnO3Ak5Vd7Q7xlL6nEx5JAVngkwI70odSYjrUJFY6bpwswOkkc5ozhuFAlY6OR0bhgtOCo7vR7u0tWrt5MIdnafj+PbuKVLiVKKRyK1REWZT6KzM0dTTQyBwdLKMucPRVi9r7Iyx3dJOh2iCLUcnSc7u1wIwP5+itW+sO6UhxxpIKlDbPVIP1Ee8SPiYrS0rSk6pcC3K9pjGJBVwAciJJAn7V5vSbDQH1Z+YnjufQqVoOrjRZbIbXbZbIcBx9AD3V/7IQGjU1WpIzbYZWdJJkctPIaPsM/VQ/YW6wB1G4d8FyUxHfzglpx9/5Va+1td5ZC1dQFBrgznacx8A5Hz2rb03RF2lxbOpe2Ld3flkJIO2DJ6zBxj3qBqOst1bXYLjoW12sZsIB49ef+1WxkO1kOByDLwfqvXex9A6V7STUZmAyvEmCR/Tb2P1P9l5CJ0kmrBxdueZc5ce/K0dF1UnydPQn0JcSsHqZgR9qzdb019tsX1yuXHFLSoREFMfzuHTFXErhLYmqOPDowR/v2WseIJqtRp7NJd9v/VEtOsR6xE7a3c4AAAnBC1uyTVNTbPIGvc5vDRngdl62/riGVuXDjagpt4JKoOGisOR8ziOxrkg1MAHkfeIrvT/AHm18v8AC5S2NOEjw6o4uycnb6rOZ6t4TvEY/EDHJ4b81MknkZH1C6tgjIO/um2x8y0cYUQhSHFqO9oLhKyCk5IjBH7gUKwoHnA6xULSf2619f7KJpUcrrsbmNdhpy4/BWNQPqtcXSVx1Tvw52O6y2zYmrGRj68DS4tBcVntaYwtqxD61BbAJ2hIkwvdyVAJ5HPenlZlUcGt4i06xLt7iIA/PK46d+te/wCR/lcqcVmpZnc7Y9wj3EknkLGlvnkdadHG33+Tk+vPCs22pqXd25eaUlwuPqKYJPqSR+sHn96Qo9Jg4gV2hI1KhtcR1oz3/wB8rnrzHPsV2NGXOBA+6i6T1m2XujIBY0lwd6jwpNe0+5fjcI2BzGnGTws9rUmNV0lNvcAh95SETE7w2oZ/uAMGeYFOKChyRwJ+9T+hLHHXjgc0NjPvZ9Qq7X4NszZ2jh/B+a01CKSWbqNsRPc9waGMd2Xe7uj00wSywvczAxu94K3rN2zqFnd2pYKEoAKFFQIlIhIA6bkgyAT701tJQpKpmap0RF5BWhRX1Jk8UdCauGMlru6jXGTO7JzgjCoVnJ8lXbJyyQo/i2i4OgCtv+jNPQ880dzSoPx2IP6ZAr1mnW7lWfUJ5I4Z5LwLZCZCMA57cfFVzKcsdQQxhrZBKJWydTsR24wqTJ8lMnyVpJudBSSRZKz/AFT0/wAKlc1C+dSlC3JCZjA/MZOecnNevqX78WuyavMyGad7Ngb1CGtGMePgvOV8DWG4G0dQ8bs4+qh5PkrCrqutNZfaesrcoKSCZXukAyB9Ij5ouL67um/LuHNwlSuOquTPOYFX7pYy2ad36ldzg369lpJEJrdZ7yNrIt7iVSZKZPkroXfGfnAB1gESCRPJSZBOOwSk+w96zhbxwaupXw3a00Ucpe8He0OGMfAKJe/bKf1VeioX3iZV6hfmNALWjYSCYjeFgwZMiI57dqclnbEGvRStkdHFsrwSjYOXnkKLXfFFQY2eNr29YtIPp8VUZPkrCvO+Mdz3noZ9W0pyUkZ29Ngn6eCTzyKaLfEE1eyGT8Tb6hG3oe5jthaQvhpVYWSSuY9x3uwM5+BVNk+SsJp8ZKS4Xm2fX6oKlExuVuPEH2GeKPw+IJq9ihDdQmdGRtmiLm/MrhptSWtdaZdvvNdjByqrJ8lMnyUweJ7YPNPi3IU2srELx6iCRG32xnHvS+QYInmre2ywOm5tevC4SDDmn1Wb0YdUlktRRMlH5HMP5lT5PkoST3JKiX4kZUl4eUSFiIUpJSDBEwEDImQRtOMk0oZOM8f93rCIi5Kp6IiIooiIiiiIiKKIiIooiIiiiIiKKIiIooiIiiiIiKKIiIor/9k=" alt="Medina Materiales" />
-      </div>
+<header class="site-header" role="banner">
+  <div class="header-inner">
+    <div class="header-logo-wrap">
+      <img src="data:image/png;base64,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" alt="Medina Materiales"/>
+    </div>
+    <div class="header-right">
       <div class="header-badge">
         <span class="app-label">Herramienta profesional</span>
         <span class="app-pill">Cómputo de obras</span>
       </div>
-    </div>
-  </header>
-      <div class="tagline">Medidas comerciales argentinas</div>
+      <button class="btn-params" onclick="abrirParams()">⚙️ Parámetros</button>
     </div>
   </div>
+</header>
 
-  <!-- MAIN CARD -->
-  <div class="card">
-    <div class="proj-row">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="color:var(--text3);flex-shrink:0"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
-      <input type="text" id="projName" placeholder="Nombre del proyecto (ej: Casa Gral. Paz 450)" aria-label="Nombre del proyecto"/>
+<!-- MODAL PARÁMETROS -->
+<div class="params-overlay" id="paramsOverlay" style="display:none" onclick="if(event.target===this)cerrarParams()">
+  <div class="params-modal" role="dialog" aria-modal="true" aria-label="Parámetros técnicos">
+    <div class="params-header">
+      <h2>⚙️ Parámetros técnicos</h2>
+      <button class="params-close" onclick="cerrarParams()" aria-label="Cerrar">×</button>
+    </div>
+    <!-- Pantalla contraseña -->
+    <div id="pwdScreen" class="pwd-wrap">
+      <h3>🔒 Acceso restringido</h3>
+      <p style="font-size:13px;color:var(--text2);margin-bottom:1rem">Ingresá la contraseña para editar los parámetros</p>
+      <input type="password" id="pwdInput" placeholder="Contraseña" onkeydown="if(event.key==='Enter')loginParams()"/>
+      <p class="pwd-err" id="pwdErr" style="display:none">Contraseña incorrecta</p>
+      <button class="btn-login" onclick="loginParams()">Ingresar</button>
+    </div>
+    <!-- Panel parámetros -->
+    <div id="paramsPanel" style="display:none">
+      <div class="params-body" id="paramsBody"></div>
+      <div class="params-footer">
+        <span class="save-info" id="saveInfo">Los cambios se guardan en este dispositivo</span>
+        <button class="btn-reset" onclick="resetParams()">↺ Restaurar defaults</button>
+        <button class="btn-save" id="btnSave" onclick="guardarParams()">💾 Guardar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div style="padding:1rem">
+<div class="card">
+  <div class="proj-row">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="color:var(--text3);flex-shrink:0"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+    <input type="text" id="projName" placeholder="Nombre del proyecto (ej: Casa Gral. Paz 450)" aria-label="Nombre del proyecto"/>
+  </div>
+
+  <div class="tabs">
+    <button class="tab active" id="tbtn-dim" onclick="showTab('dim')">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px" aria-hidden="true"><path d="M21 6H3"/><path d="M21 12H3"/><path d="M21 18H3"/></svg>
+      Dimensiones
+    </button>
+    <button class="tab" id="tbtn-res" onclick="showTab('res')">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><line x1="10" y1="9" x2="8" y2="9"/></svg>
+      Cómputo
+    </button>
+  </div>
+
+  <div id="tab-dim">
+    <div class="sec-card">
+      <div class="sec-toggle" onclick="toggleSec('platea')">
+        <div class="stitle"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2" y="18" width="20" height="4" rx="1"/><rect x="4" y="13" width="16" height="5"/><line x1="6" y1="13" x2="6" y2="7"/><line x1="12" y1="13" x2="12" y2="7"/><line x1="18" y1="13" x2="18" y2="7"/></svg>Platea de fundación</div>
+        <input type="checkbox" class="toggle-check" id="chk-platea" onclick="event.stopPropagation();toggleSec('platea',this.checked)"/>
+      </div>
+      <div class="sec-body" id="sec-platea" style="display:none">
+        <div class="fg3">
+          <div class="field"><label for="plat_largo">Largo (m)</label><input type="number" id="plat_largo" value="" inputmode="decimal"/></div>
+          <div class="field"><label for="plat_ancho">Ancho (m)</label><input type="number" id="plat_ancho" value="" inputmode="decimal"/></div>
+          <div class="field"><label for="plat_espesor">Espesor (cm)</label><input type="number" id="plat_espesor" value="" inputmode="decimal"/><span class="hint">Típico: 15–20 cm</span></div>
+        </div>
+      </div>
     </div>
 
-    <div class="tabs">
-      <button class="tab active" id="tbtn-dim" onclick="showTab('dim')">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px" aria-hidden="true"><path d="M21 6H3"/><path d="M21 12H3"/><path d="M21 18H3"/></svg>
-        Dimensiones
-      </button>
-      <button class="tab" id="tbtn-res" onclick="showTab('res')">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><line x1="10" y1="9" x2="8" y2="9"/></svg>
-        Cómputo
-      </button>
+    <div class="sec-card">
+      <div class="sec-toggle" onclick="toggleSec('cim')">
+        <div class="stitle"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2" y="14" width="20" height="6" rx="1"/><rect x="6" y="8" width="12" height="6" rx="1"/><rect x="10" y="2" width="4" height="6" rx="1"/></svg>Cimientos</div>
+        <input type="checkbox" class="toggle-check" id="chk-cim" onclick="event.stopPropagation();toggleSec('cim',this.checked)"/>
+      </div>
+      <div class="sec-body" id="sec-cim" style="display:none">
+        <div class="fg3">
+          <div class="field"><label for="cim_long">Long. total (m)</label><input type="number" id="cim_long" value="" inputmode="decimal"/><span class="hint">Perímetro + ejes int.</span></div>
+          <div class="field"><label for="cim_ancho">Ancho (m)</label><input type="number" id="cim_ancho" value="" step="0.05" inputmode="decimal"/></div>
+          <div class="field"><label for="cim_prof">Profundidad (m)</label><input type="number" id="cim_prof" value="" step="0.05" inputmode="decimal"/></div>
+        </div>
+        <div class="hint" style="margin-top:6px">Hormigón pobre con granza · Cem. alb. + Portland + arena + granza</div>
+      </div>
     </div>
 
-    <!-- ═══ TAB DIMENSIONES ═══ -->
-    <div id="tab-dim">
-
-      <!-- Planta general -->
-      <div class="sec-card">
-        <div style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:10px;display:flex;align-items:center;gap:7px">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
-          Planta general
+    <div class="sec-card">
+      <div class="sec-toggle" onclick="toggleSec('mamp')">
+        <div class="stitle"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2" y="4" width="9" height="6" rx="1"/><rect x="13" y="4" width="9" height="6" rx="1"/><rect x="2" y="14" width="9" height="6" rx="1"/><rect x="13" y="14" width="9" height="6" rx="1"/></svg>Mampostería</div>
+        <input type="checkbox" class="toggle-check" id="chk-mamp" onclick="event.stopPropagation();toggleSec('mamp',this.checked)"/>
+      </div>
+      <div class="sec-body" id="sec-mamp" style="display:none">
+        <div class="fg3" style="margin-bottom:8px">
+          <div class="field"><label for="muro_long">Long. total de muros (m)</label><input type="number" id="muro_long" value="" inputmode="decimal"/><span class="hint">Perímetro + tabiques</span></div>
+          <div class="field"><label for="alt_muros">Altura de muros (m)</label><input type="number" id="alt_muros" value="" step="0.05" inputmode="decimal"/><span class="hint">Ej: 2.60 m</span></div>
+          <div class="field"><label for="sup_aberturas">Sup. aberturas (m²)</label><input type="number" id="sup_aberturas" value="" inputmode="decimal"/><span class="hint">Puertas + ventanas</span></div>
+        </div>
+        <div class="fg2" style="margin-bottom:8px">
+          <div class="field"><label for="tipo_ladrillo">Tipo de mampostería</label>
+            <select id="tipo_ladrillo">
+              <option value="comun">Ladrillo común 18×9×6 cm</option>
+              <option value="ceramico" selected>Ladrillo cerámico hueco 8 cm</option>
+              <option value="ceramico12">Ladrillo cerámico hueco 12 cm</option>
+              <option value="bloque">Bloque de hormigón 20 cm</option>
+            </select>
+          </div>
+          <div class="field"><label for="dosif_mortero">Dosificación del mortero</label>
+            <select id="dosif_mortero">
+              <option value="1_3">1:3 — Cemento : Arena (resistente)</option>
+              <option value="1_4" selected>1:4 — Cemento : Arena (estándar)</option>
+              <option value="1_6">1:6 — Cemento : Arena (económico)</option>
+            </select>
+          </div>
         </div>
         <div class="fg2">
-          <div class="field">
-            <label for="sup_total">Superficie cubierta total (m²)</label>
-            <input type="number" id="sup_total" value="" min="1" inputmode="decimal"/>
-            <span class="hint">Total de planta incluyendo muros</span>
-          </div>
-          <div class="field">
-            <label for="alt_muros">Altura de muros (m)</label>
-            <input type="number" id="alt_muros" value="" step="0.1" min="2" inputmode="decimal"/>
-          </div>
-        </div>
-      </div>
-
-      <!-- Platea de fundación -->
-      <div class="sec-card">
-        <div class="sec-toggle" onclick="toggleSec('platea')">
-          <div class="stitle">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2" y="18" width="20" height="4" rx="1"/><rect x="4" y="13" width="16" height="5"/><line x1="6" y1="13" x2="6" y2="7"/><line x1="12" y1="13" x2="12" y2="7"/><line x1="18" y1="13" x2="18" y2="7"/></svg>
-            Platea de fundación
-          </div>
-          <input type="checkbox" class="toggle-check" id="chk-platea" aria-label="Activar platea de fundación" onclick="event.stopPropagation();toggleSec('platea',this.checked)"/>
-        </div>
-        <div class="sec-body" id="sec-platea" style="display:none">
-          <div class="fg3" style="margin-bottom:8px">
-            <div class="field"><label for="plat_largo">Largo (m)</label><input type="number" id="plat_largo" value="" inputmode="decimal"/></div>
-            <div class="field"><label for="plat_ancho">Ancho (m)</label><input type="number" id="plat_ancho" value="" inputmode="decimal"/></div>
-            <div class="field"><label for="plat_espesor">Espesor (cm)</label><input type="number" id="plat_espesor" value="" inputmode="decimal"/><span class="hint">Típico: 15–20 cm</span></div>
-          </div>
-          <div class="hint" style="margin-top:4px">Hormigón H-21 elaborado · Mallas de acero 3×2 m (Ø6 c/15 cm doble sentido)</div>
-        </div>
-      </div>
-
-      <!-- Cimientos -->
-      <div class="sec-card">
-        <div class="sec-toggle" onclick="toggleSec('cim')">
-          <div class="stitle">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2" y="14" width="20" height="6" rx="1"/><rect x="6" y="8" width="12" height="6" rx="1"/><rect x="10" y="2" width="4" height="6" rx="1"/></svg>
-            Cimientos
-          </div>
-          <input type="checkbox" class="toggle-check" id="chk-cim" aria-label="Activar cimientos" onclick="event.stopPropagation();toggleSec('cim',this.checked)"/>
-        </div>
-        <div class="sec-body" id="sec-cim" style="display:none">
-          <div class="fg3" style="margin-bottom:8px">
-            <div class="field"><label for="cim_long">Long. total (m)</label><input type="number" id="cim_long" value="" inputmode="decimal"/><span class="hint">Perímetro + ejes int.</span></div>
-            <div class="field"><label for="cim_ancho">Ancho (m)</label><input type="number" id="cim_ancho" value="" step="0.05" inputmode="decimal"/></div>
-            <div class="field"><label for="cim_prof">Profundidad (m)</label><input type="number" id="cim_prof" value="" step="0.05" inputmode="decimal"/></div>
-          </div>
-          <div class="hint" style="margin-top:4px">Hormigón pobre con granza · Cemento de albañilería + arena + granza + refuerzo Portland</div>
-        </div>
-      </div>
-
-      <!-- Mampostería -->
-      <div class="sec-card">
-        <div class="sec-toggle" onclick="toggleSec('mamp')">
-          <div class="stitle">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2" y="4" width="9" height="6" rx="1"/><rect x="13" y="4" width="9" height="6" rx="1"/><rect x="2" y="14" width="9" height="6" rx="1"/><rect x="13" y="14" width="9" height="6" rx="1"/></svg>
-            Mampostería
-          </div>
-          <input type="checkbox" class="toggle-check" id="chk-mamp" aria-label="Activar mampostería" onclick="event.stopPropagation();toggleSec('mamp',this.checked)"/>
-        </div>
-        <div class="sec-body" id="sec-mamp" style="display:none">
-          <div class="fg2" style="margin-bottom:8px">
-            <div class="field"><label for="muro_long">Long. total de muros (m)</label><input type="number" id="muro_long" value="" inputmode="decimal"/></div>
-            <div class="field">
-              <label for="tipo_ladrillo">Tipo de ladrillo</label>
-              <select id="tipo_ladrillo">
-                <option value="comun">Ladrillo común 18×9×6</option>
-                <option value="ceramico" selected>Cerámico hueco 8 cm</option>
-                <option value="ceramico12">Cerámico hueco 12 cm</option>
-                <option value="bloque">Bloque de hormigón 20 cm</option>
-              </select>
-            </div>
-          </div>
-          <div class="fg2">
-            <div class="field"><label for="sup_aberturas">Sup. aberturas (m²)</label><input type="number" id="sup_aberturas" value="" inputmode="decimal"/><span class="hint">Puertas + ventanas</span></div>
-            <div class="field"><label for="cant_col">Columnas de horm. (cant.)</label><input type="number" id="cant_col" value="" inputmode="numeric"/></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Revoques -->
-      <div class="sec-card">
-        <div class="sec-toggle" onclick="toggleSec('rev')">
-          <div class="stitle">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>
-            Revoques
-          </div>
-          <input type="checkbox" class="toggle-check" id="chk-rev" aria-label="Activar revoques" onclick="event.stopPropagation();toggleSec('rev',this.checked)"/>
-        </div>
-        <div class="sec-body" id="sec-rev" style="display:none">
-          <div class="fg2" style="margin-bottom:8px">
-            <div class="field"><label for="rev_ext">Sup. revocar exterior (m²)</label><input type="number" id="rev_ext" value="" inputmode="decimal"/></div>
-            <div class="field"><label for="rev_int">Sup. revocar interior (m²)</label><input type="number" id="rev_int" value="" inputmode="decimal"/></div>
-          </div>
-          <div class="field">
-            <label for="tipo_rev">Terminación interior</label>
-            <select id="tipo_rev">
-              <option value="stuko" selected>Revoque fino a la cal — stuko (bolsa 25 kg)</option>
-              <option value="yeso">Yeso proyectable (bolsa 25 kg)</option>
-              <option value="cemento">Revoque fino cemento (bolsa 25 kg)</option>
+          <div class="field"><label for="cant_col">Columnas de encadenado (cant.)</label><input type="number" id="cant_col" value="" inputmode="numeric"/><span class="hint">Columnas de hormigón</span></div>
+          <div class="field"><label for="inc_encadenado">Viga encadenada superior</label>
+            <select id="inc_encadenado">
+              <option value="si" selected>Sí — incluir</option>
+              <option value="no">No — omitir</option>
             </select>
           </div>
         </div>
       </div>
+    </div>
 
-      <!-- Pisos -->
-      <div class="sec-card">
-        <div class="sec-toggle" onclick="toggleSec('piso')">
-          <div class="stitle">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2" y="2" width="9" height="9"/><rect x="13" y="2" width="9" height="9"/><rect x="2" y="13" width="9" height="9"/><rect x="13" y="13" width="9" height="9"/></svg>
-            Contrapisos y pisos
-          </div>
-          <input type="checkbox" class="toggle-check" id="chk-piso" aria-label="Activar pisos" onclick="event.stopPropagation();toggleSec('piso',this.checked)"/>
+    <div class="sec-card">
+      <div class="sec-toggle" onclick="toggleSec('rev')">
+        <div class="stitle"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>Revoques</div>
+        <input type="checkbox" class="toggle-check" id="chk-rev" onclick="event.stopPropagation();toggleSec('rev',this.checked)"/>
+      </div>
+      <div class="sec-body" id="sec-rev" style="display:none">
+        <div class="fg2" style="margin-bottom:8px">
+          <div class="field"><label for="rev_ext">Sup. revocar exterior (m²)</label><input type="number" id="rev_ext" value="" inputmode="decimal"/></div>
+          <div class="field"><label for="rev_int">Sup. revocar interior (m²)</label><input type="number" id="rev_int" value="" inputmode="decimal"/></div>
         </div>
-        <div class="sec-body" id="sec-piso" style="display:none">
-          <div class="fg2">
-            <div class="field"><label for="sup_piso">Superficie de pisos (m²)</label><input type="number" id="sup_piso" value="" inputmode="decimal"/></div>
-            <div class="field">
-              <label for="tipo_piso">Tipo de piso</label>
-              <select id="tipo_piso">
-                <option value="ceramica">Cerámica 35×35</option>
-                <option value="porcelanato" selected>Porcelanato 60×60</option>
-                <option value="microcemento">Microcemento</option>
-              </select>
-            </div>
+        <div class="field"><label for="tipo_rev">Terminación interior</label>
+          <select id="tipo_rev">
+            <option value="stuko" selected>Revoque fino a la cal — stuko (bolsa 25 kg)</option>
+            <option value="yeso">Yeso proyectable (bolsa 25 kg)</option>
+            <option value="cemento">Revoque fino cemento (bolsa 25 kg)</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="sec-card">
+      <div class="sec-toggle" onclick="toggleSec('piso')">
+        <div class="stitle"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2" y="2" width="9" height="9"/><rect x="13" y="2" width="9" height="9"/><rect x="2" y="13" width="9" height="9"/><rect x="13" y="13" width="9" height="9"/></svg>Contrapisos y pisos</div>
+        <input type="checkbox" class="toggle-check" id="chk-piso" onclick="event.stopPropagation();toggleSec('piso',this.checked)"/>
+      </div>
+      <div class="sec-body" id="sec-piso" style="display:none">
+        <div class="fg2">
+          <div class="field"><label for="sup_piso">Superficie de pisos (m²)</label><input type="number" id="sup_piso" value="" inputmode="decimal"/></div>
+          <div class="field"><label for="tipo_piso">Tipo de piso</label>
+            <select id="tipo_piso">
+              <option value="ceramica">Cerámica 35×35</option>
+              <option value="porcelanato" selected>Porcelanato 60×60</option>
+              <option value="microcemento">Microcemento</option>
+            </select>
           </div>
         </div>
       </div>
+    </div>
 
-      <!-- Cubierta -->
-      <div class="sec-card">
-        <div class="sec-toggle" onclick="toggleSec('cub')">
-          <div class="stitle">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 12L12 3l9 9"/><path d="M9 21V12h6v9"/></svg>
-            Cubierta / techo
-          </div>
-          <input type="checkbox" class="toggle-check" id="chk-cub" aria-label="Activar cubierta" onclick="event.stopPropagation();toggleSec('cub',this.checked)"/>
-        </div>
-        <div class="sec-body" id="sec-cub" style="display:none">
-          <div class="fg2">
-            <div class="field"><label for="sup_techo">Superficie de techo (m²)</label><input type="number" id="sup_techo" value="" inputmode="decimal"/><span class="hint">Incluir aleros</span></div>
-            <div class="field">
-              <label for="tipo_techo">Tipo de cubierta</label>
-              <select id="tipo_techo">
-                <option value="chapa">Chapa galvanizada sinusoidal</option>
-                <option value="teja" selected>Teja cerámica española</option>
-                <option value="losa">Losa con membrana asfáltica</option>
-                <option value="fibrocemento">Placa fibrocemento</option>
-              </select>
-            </div>
+    <div class="sec-card">
+      <div class="sec-toggle" onclick="toggleSec('cub')">
+        <div class="stitle"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 12L12 3l9 9"/><path d="M9 21V12h6v9"/></svg>Cubierta / techo</div>
+        <input type="checkbox" class="toggle-check" id="chk-cub" onclick="event.stopPropagation();toggleSec('cub',this.checked)"/>
+      </div>
+      <div class="sec-body" id="sec-cub" style="display:none">
+        <div class="fg2">
+          <div class="field"><label for="sup_techo">Superficie de techo (m²)</label><input type="number" id="sup_techo" value="" inputmode="decimal"/><span class="hint">Incluir aleros</span></div>
+          <div class="field"><label for="tipo_techo">Tipo de cubierta</label>
+            <select id="tipo_techo">
+              <option value="chapa">Chapa galvanizada sinusoidal</option>
+              <option value="teja" selected>Teja cerámica española</option>
+              <option value="losa">Losa con membrana asfáltica</option>
+              <option value="fibrocemento">Placa fibrocemento</option>
+            </select>
           </div>
         </div>
       </div>
+    </div>
 
-      <!-- Sanitaria -->
-      <div class="sec-card">
-        <div class="sec-toggle" onclick="toggleSec('san')">
-          <div class="stitle">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 2v6m0 0C9 8 6 10 6 14a6 6 0 0012 0c0-4-3-6-6-6z"/></svg>
-            Sanitaria
-          </div>
-          <input type="checkbox" class="toggle-check" id="chk-san" aria-label="Activar sanitaria" onclick="event.stopPropagation();toggleSec('san',this.checked)"/>
-        </div>
-        <div class="sec-body" id="sec-san" style="display:none">
-          <div class="fg3">
-            <div class="field"><label for="cant_ban">Baños completos</label><input type="number" id="cant_ban" value="" min="0" inputmode="numeric"/></div>
-            <div class="field"><label for="cant_coc">Cocina / lavadero</label><input type="number" id="cant_coc" value="" min="0" inputmode="numeric"/></div>
-            <div class="field"><label for="long_col">Long. colectora (m)</label><input type="number" id="long_col" value="" inputmode="decimal"/></div>
-          </div>
+    <div class="sec-card">
+      <div class="sec-toggle" onclick="toggleSec('san')">
+        <div class="stitle"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 2v6m0 0C9 8 6 10 6 14a6 6 0 0012 0c0-4-3-6-6-6z"/></svg>Sanitaria</div>
+        <input type="checkbox" class="toggle-check" id="chk-san" onclick="event.stopPropagation();toggleSec('san',this.checked)"/>
+      </div>
+      <div class="sec-body" id="sec-san" style="display:none">
+        <div class="fg3">
+          <div class="field"><label for="cant_ban">Baños completos</label><input type="number" id="cant_ban" value="" min="0" inputmode="numeric"/></div>
+          <div class="field"><label for="cant_coc">Cocina / lavadero</label><input type="number" id="cant_coc" value="" min="0" inputmode="numeric"/></div>
+          <div class="field"><label for="long_col">Long. colectora (m)</label><input type="number" id="long_col" value="" inputmode="decimal"/></div>
         </div>
       </div>
+    </div>
 
-      <!-- Eléctrica -->
-      <div class="sec-card">
-        <div class="sec-toggle" onclick="toggleSec('elec')">
-          <div class="stitle">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-            Instalación eléctrica
-          </div>
-          <input type="checkbox" class="toggle-check" id="chk-elec" aria-label="Activar eléctrica" onclick="event.stopPropagation();toggleSec('elec',this.checked)"/>
-        </div>
-        <div class="sec-body" id="sec-elec" style="display:none">
-          <div class="fg2">
-            <div class="field"><label for="cant_amb">Cantidad de ambientes</label><input type="number" id="cant_amb" value="" min="1" inputmode="numeric"/></div>
-            <div class="field"><label for="bocas_amb">Bocas aprox. por ambiente</label><input type="number" id="bocas_amb" value="" min="1" inputmode="numeric"/></div>
-          </div>
+    <div class="sec-card">
+      <div class="sec-toggle" onclick="toggleSec('elec')">
+        <div class="stitle"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>Instalación eléctrica</div>
+        <input type="checkbox" class="toggle-check" id="chk-elec" onclick="event.stopPropagation();toggleSec('elec',this.checked)"/>
+      </div>
+      <div class="sec-body" id="sec-elec" style="display:none">
+        <div class="fg2">
+          <div class="field"><label for="cant_amb">Cantidad de ambientes</label><input type="number" id="cant_amb" value="" min="1" inputmode="numeric"/></div>
+          <div class="field"><label for="bocas_amb">Bocas aprox. por ambiente</label><input type="number" id="bocas_amb" value="" min="1" inputmode="numeric"/></div>
         </div>
       </div>
+    </div>
 
-      <button class="calc-btn" onclick="calcular()">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-3px;margin-right:6px" aria-hidden="true"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="8" y1="10" x2="16" y2="10"/><line x1="8" y1="14" x2="12" y2="14"/></svg>
-        Calcular materiales
-      </button>
-    </div><!-- end tab-dim -->
+    <button class="calc-btn" onclick="calcular()">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-3px;margin-right:6px" aria-hidden="true"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="8" y1="10" x2="16" y2="10"/><line x1="8" y1="14" x2="12" y2="14"/></svg>
+      Calcular materiales
+    </button>
+  </div>
 
-    <!-- ═══ TAB RESULTADO ═══ -->
-    <div id="tab-res" style="display:none"></div>
-
-  </div><!-- end .card -->
-</div></div><!-- end .app -->
+  <div id="tab-res" style="display:none"></div>
+</div>
+</div>
+</div></div>
 
 <script>
-const D=1.10;
+// ─── CONTRASEÑA ───────────────────────────────────────────────────────────────
+const ADMIN_PWD = 'medina2024'; // Cambiá esta contraseña
+
+// ─── PARÁMETROS POR DEFECTO ───────────────────────────────────────────────────
+const DEFAULT_P = {
+  D: 1.10,
+  // Platea
+  plat_malla_area: 6, plat_malla_solape: 1.10, plat_sep_porM2: 2, plat_alambre_kgM2: 0.15,
+  // Cimientos
+  cim_cemAlb_kgM3: 180, cim_portland_kgM3: 25, cim_arena_m3M3: 0.45, cim_granza_m3M3: 0.65, cim_agua_m3M3: 0.18,
+  // Mampostería
+  mamp_comun_m2: 37, mamp_cer8_m2: 16, mamp_cer12_m2: 14, mamp_bloque_m2: 12.5,
+  mamp_cemAlb_kgM2: 4, mamp_arena_m3M2: 0.02,
+  mamp_enc_seccion: 0.03, mamp_enc_cem_kgM3: 150,
+  // Revoques
+  rev_jahExt_cemAlb_kgM2: 3.5, rev_jahExt_arena_m3M2: 0.015,
+  rev_stuko_m2Bol: 9, rev_yeso_m2Bol: 2.5,
+  rev_cemFino_kgM2: 4, rev_cemFino_arena_m3M2: 0.008,
+  rev_jahInt_cemAlb_kgM2: 3.5, rev_jahInt_arena_m3M2: 0.012,
+  rev_malla_m2Rollo: 40,
+  // Pisos
+  piso_cp_cemAlb_kgM2: 20, piso_cp_tosca_m3M2: 0.09,
+  piso_carp_port_kgM2: 5.4, piso_carp_arena_m3M2: 0.0165,
+  piso_cer_peg_m2Bol: 4, piso_cer_past_m2Kg: 8,
+  piso_por_peg_m2Bol: 3.5, piso_por_past_m2Kg: 10,
+  piso_mc_m2Kit: 5,
+  // Cubierta teja
+  cub_teja_m2: 16, cub_teja_latas_m2Ud: 1.5, cub_teja_cabios_m2Ud: 6,
+  cub_teja_clavos_kgM2: 0.075, cub_teja_mort_kgM2: 1.5,
+  // Cubierta chapa
+  cub_chapa_solape: 1.12,
+  // Cubierta losa
+  cub_losa_esp_m: 0.12, cub_losa_port_kgM3: 250, cub_losa_hier_mM2: 3.5,
+  cub_memb_solape: 1.1, cub_memb_m2Rollo: 10,
+  // Sanitaria
+  san_pvc75_mBoca: 2.5, san_pvc50_mBan: 2, san_pvc40_mAmb: 4,
+  san_pres_mAmb: 8, san_cpvc_mAmb: 6, san_cc_porBoca: 1.5, san_tef_porAmb: 4,
+  // Eléctrica
+  elec_cano_mBoca: 3, elec_cabF_mBoca: 5, elec_cabN_mBoca: 5,
+  elec_cabT_mBoca: 4, elec_cabAD_mAmb: 10, elec_cajaR_porBoca: 0.7,
+  elec_cajaC_porAmb: 2, elec_tablero_poAmb: 3, elec_disyuntor_bocas: 8,
+  elec_toma_porBoca: 0.5, elec_llave_porBoca: 0.3, elec_canoSP_porAmb: 3
+};
+
+// Cargar parámetros desde localStorage o usar defaults
+let P = {};
+function cargarParams(){
+  try {
+    const raw = localStorage.getItem('medina_params_v1');
+    const saved = raw ? JSON.parse(raw) : {};
+    // Merge: defaults + lo guardado (así nuevos params siempre aparecen)
+    P = Object.assign({}, DEFAULT_P, saved);
+  } catch(e){ P = Object.assign({}, DEFAULT_P); }
+}
+cargarParams();
+
+// ─── DEFINICIÓN DE CATEGORÍAS PARA LA UI ─────────────────────────────────────
+const CATS = [
+  { id:'general', label:'⚙️ General', rows:[
+    {k:'D', label:'Factor de desperdicio general', unit:'factor', min:1, max:1.5, step:0.01, hint:'Ej: 1.10 = 10%'}
+  ]},
+  { id:'platea', label:'🟫 Platea de fundación', rows:[
+    {k:'plat_malla_area',    label:'Área panel de malla',      unit:'m²',    min:1,    max:20,   step:0.5},
+    {k:'plat_malla_solape',  label:'Factor solape malla',      unit:'factor',min:1,    max:1.3,  step:0.01},
+    {k:'plat_sep_porM2',     label:'Separadores por m²',       unit:'un/m²', min:1,    max:10,   step:1},
+    {k:'plat_alambre_kgM2',  label:'Alambre recocido',         unit:'kg/m²', min:0.05, max:0.5,  step:0.01}
+  ]},
+  { id:'cim', label:'🏗️ Cimientos', rows:[
+    {k:'cim_cemAlb_kgM3',  label:'Cemento de albañilería', unit:'kg/m³', min:50,  max:300, step:5},
+    {k:'cim_portland_kgM3',label:'Cemento Portland',       unit:'kg/m³', min:0,   max:100, step:5},
+    {k:'cim_arena_m3M3',   label:'Arena gruesa',           unit:'m³/m³', min:0.2, max:0.8, step:0.01},
+    {k:'cim_granza_m3M3',  label:'Granza 10/20',           unit:'m³/m³', min:0.3, max:0.9, step:0.01},
+    {k:'cim_agua_m3M3',    label:'Agua (referencia)',       unit:'m³/m³', min:0.1, max:0.3, step:0.01}
+  ]},
+  { id:'mamp', label:'🧱 Mampostería', rows:[
+    {k:'mamp_comun_m2',      label:'Ladrillo común 18×9×6',     unit:'un/m²', min:25, max:50,  step:0.5},
+    {k:'mamp_cer8_m2',       label:'Cerámico hueco 8 cm',        unit:'un/m²', min:10, max:25,  step:0.5},
+    {k:'mamp_cer12_m2',      label:'Cerámico hueco 12 cm',       unit:'un/m²', min:8,  max:20,  step:0.5},
+    {k:'mamp_bloque_m2',     label:'Bloque hormigón 20 cm',      unit:'un/m²', min:6,  max:18,  step:0.5},
+    {k:'mamp_cemAlb_kgM2',   label:'Cem. alb. mortero asiento',  unit:'kg/m²', min:1,  max:10,  step:0.1},
+    {k:'mamp_arena_m3M2',    label:'Arena mortero asiento',      unit:'m³/m²', min:0.005,max:0.06,step:0.001},
+    {k:'mamp_enc_seccion',   label:'Sección viga encadenada',    unit:'m²',    min:0.01,max:0.1, step:0.005},
+    {k:'mamp_enc_cem_kgM3',  label:'Portland viga encadenada',   unit:'kg/m³', min:100,max:250,  step:5}
+  ]},
+  { id:'rev', label:'🪣 Revoques', rows:[
+    {k:'rev_jahExt_cemAlb_kgM2', label:'Cem. alb. jaharro ext.',   unit:'kg/m²',    min:1,    max:8,   step:0.1},
+    {k:'rev_jahExt_arena_m3M2',  label:'Arena jaharro ext.',        unit:'m³/m²',    min:0.005,max:0.04,step:0.001},
+    {k:'rev_stuko_m2Bol',        label:'Rendimiento stuko',         unit:'m²/bolsa', min:4,    max:15,  step:0.5},
+    {k:'rev_yeso_m2Bol',         label:'Rendimiento yeso proy.',    unit:'m²/bolsa', min:1.5,  max:6,   step:0.1},
+    {k:'rev_cemFino_kgM2',       label:'Portland revoque fino',     unit:'kg/m²',    min:1,    max:8,   step:0.1},
+    {k:'rev_jahInt_cemAlb_kgM2', label:'Cem. alb. jaharro int.',    unit:'kg/m²',    min:1,    max:8,   step:0.1},
+    {k:'rev_jahInt_arena_m3M2',  label:'Arena jaharro int.',        unit:'m³/m²',    min:0.005,max:0.04,step:0.001},
+    {k:'rev_malla_m2Rollo',      label:'Rendimiento malla FV',      unit:'m²/rollo', min:20,   max:100, step:5}
+  ]},
+  { id:'piso', label:'⬛ Contrapisos y pisos', rows:[
+    {k:'piso_cp_cemAlb_kgM2',  label:'Cem. alb. contrapiso',     unit:'kg/m²',    min:10,   max:30,  step:0.5},
+    {k:'piso_cp_tosca_m3M2',   label:'Tosca/cascote contrapiso', unit:'m³/m²',    min:0.05, max:0.15,step:0.005},
+    {k:'piso_carp_port_kgM2',  label:'Portland carpeta',         unit:'kg/m²',    min:2,    max:10,  step:0.1},
+    {k:'piso_cer_peg_m2Bol',   label:'Rend. peg. cerámica',      unit:'m²/bolsa', min:2,    max:8,   step:0.5},
+    {k:'piso_cer_past_m2Kg',   label:'Rend. pastina cerámica',   unit:'m²/kg',    min:3,    max:15,  step:0.5},
+    {k:'piso_por_peg_m2Bol',   label:'Rend. peg. porcelanato',   unit:'m²/bolsa', min:2,    max:8,   step:0.5},
+    {k:'piso_por_past_m2Kg',   label:'Rend. pastina porcelanto', unit:'m²/kg',    min:4,    max:20,  step:0.5},
+    {k:'piso_mc_m2Kit',        label:'Rend. microcemento',       unit:'m²/kit',   min:2,    max:10,  step:0.5}
+  ]},
+  { id:'cub', label:'🏠 Cubierta', rows:[
+    {k:'cub_teja_m2',         label:'Tejas por m²',          unit:'un/m²',  min:12,   max:22,   step:0.5},
+    {k:'cub_teja_latas_m2Ud', label:'Espaciado latas',       unit:'m²/ud',  min:1,    max:2.5,  step:0.1},
+    {k:'cub_teja_cabios_m2Ud',label:'Espaciado cabios',      unit:'m²/ud',  min:3,    max:10,   step:0.5},
+    {k:'cub_teja_clavos_kgM2',label:'Clavos teja',           unit:'kg/m²',  min:0.02, max:0.2,  step:0.005},
+    {k:'cub_teja_mort_kgM2',  label:'Mortero canaleta',      unit:'kg/m²',  min:0.5,  max:3,    step:0.1},
+    {k:'cub_chapa_solape',    label:'Factor solape chapa',   unit:'factor', min:1.05, max:1.25, step:0.01},
+    {k:'cub_losa_esp_m',      label:'Espesor losa',          unit:'m',      min:0.08, max:0.20, step:0.01},
+    {k:'cub_losa_port_kgM3',  label:'Portland losa H-17',    unit:'kg/m³',  min:180,  max:320,  step:5},
+    {k:'cub_losa_hier_mM2',   label:'Hierro Ø8 por m²',      unit:'m/m²',   min:2,    max:6,    step:0.1},
+    {k:'cub_memb_solape',     label:'Factor solape membrana', unit:'factor', min:1,    max:1.2,  step:0.01}
+  ]},
+  { id:'elec', label:'⚡ Eléctrica', rows:[
+    {k:'elec_cano_mBoca',       label:'Caño corrugado/boca',   unit:'m/boca',  min:1,   max:8,   step:0.5},
+    {k:'elec_cabF_mBoca',       label:'Cable fase/boca',       unit:'m/boca',  min:2,   max:12,  step:0.5},
+    {k:'elec_cabN_mBoca',       label:'Cable neutro/boca',     unit:'m/boca',  min:2,   max:12,  step:0.5},
+    {k:'elec_cabT_mBoca',       label:'Cable tierra/boca',     unit:'m/boca',  min:2,   max:12,  step:0.5},
+    {k:'elec_cabAD_mAmb',       label:'Cable AD/ambiente',     unit:'m/amb',   min:4,   max:20,  step:1},
+    {k:'elec_cajaR_porBoca',    label:'Cajas rect./boca',      unit:'un/boca', min:0.3, max:1,   step:0.1},
+    {k:'elec_cajaC_porAmb',     label:'Cajas cuad./ambiente',  unit:'un/amb',  min:1,   max:5,   step:1},
+    {k:'elec_tablero_poAmb',    label:'Ambientes/tablero',     unit:'amb/ud',  min:1,   max:8,   step:1},
+    {k:'elec_disyuntor_bocas',  label:'Bocas/disyuntor',       unit:'bocas',   min:4,   max:16,  step:1},
+    {k:'elec_toma_porBoca',     label:'Tomas/boca',            unit:'factor',  min:0.2, max:0.8, step:0.1},
+    {k:'elec_llave_porBoca',    label:'Llaves/boca',           unit:'factor',  min:0.1, max:0.6, step:0.1},
+    {k:'elec_canoSP_porAmb',    label:'Caño SP/ambiente',      unit:'un/amb',  min:1,   max:6,   step:1}
+  ]}
+];
+
+// ─── AUTENTICACIÓN ────────────────────────────────────────────────────────────
+let authOk = false;
+function abrirParams(){
+  document.getElementById('paramsOverlay').style.display='flex';
+  if(!authOk){
+    document.getElementById('pwdScreen').style.display='block';
+    document.getElementById('paramsPanel').style.display='none';
+    document.getElementById('pwdInput').value='';
+    document.getElementById('pwdErr').style.display='none';
+    setTimeout(()=>document.getElementById('pwdInput').focus(),100);
+  } else {
+    mostrarPanel();
+  }
+}
+function cerrarParams(){
+  document.getElementById('paramsOverlay').style.display='none';
+}
+function loginParams(){
+  const pwd=document.getElementById('pwdInput').value;
+  if(pwd===ADMIN_PWD){
+    authOk=true;
+    document.getElementById('pwdErr').style.display='none';
+    mostrarPanel();
+  } else {
+    document.getElementById('pwdErr').style.display='block';
+    document.getElementById('pwdInput').value='';
+    document.getElementById('pwdInput').focus();
+  }
+}
+
+// ─── RENDER PANEL PARÁMETROS ──────────────────────────────────────────────────
+function mostrarPanel(){
+  document.getElementById('pwdScreen').style.display='none';
+  document.getElementById('paramsPanel').style.display='block';
+  renderParams();
+}
+
+let tempP = {};
+function renderParams(){
+  tempP = Object.assign({}, P);
+  const body = document.getElementById('paramsBody');
+  body.innerHTML = CATS.map(cat=>{
+    const rows = cat.rows.map(r=>{
+      const isModified = tempP[r.k] !== DEFAULT_P[r.k];
+      return `<div class="params-row">
+        <label>${r.label}${r.hint?`<span class="p-sub">${r.hint}</span>`:\'\'}${isModified?` <span style="color:var(--amber);font-size:10px">● modificado (default: ${DEFAULT_P[r.k]})</span>`:''}</label>
+        <input type="number" id="pi_${r.k}" value="${tempP[r.k]}" min="${r.min}" max="${r.max}" step="${r.step}"
+          class="${isModified?\'modified\':\'\'}"
+          onchange="onParamChange(\'${r.k}\',this,${r.min},${r.max})"
+          oninput="onParamChange(\'${r.k}\',this,${r.min},${r.max})"/>
+        <span class="params-unit">${r.unit}</span>
+      </div>`;
+    }).join('');
+    return `<div class="params-cat">
+      <div class="params-cat-hdr" onclick="toggleCat(\'${cat.id}\')">
+        <span>${cat.label}</span>
+        <svg id="arr_${cat.id}" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <div class="params-cat-body" id="cat_${cat.id}" style="display:none">${rows}</div>
+    </div>`;
+  }).join('');
+  document.getElementById('btnSave').textContent='💾 Guardar';
+  document.getElementById('btnSave').className='btn-save';
+  document.getElementById('saveInfo').textContent='Los cambios se guardan en este dispositivo';
+}
+
+function toggleCat(id){
+  const body=document.getElementById('cat_'+id);
+  const arr=document.getElementById('arr_'+id);
+  const open=body.style.display==='none';
+  body.style.display=open?'block':'none';
+  arr.style.transform=open?'rotate(180deg)':'';
+}
+
+function onParamChange(key, input, min, max){
+  const v=parseFloat(input.value);
+  if(isNaN(v)||v<min||v>max){
+    input.classList.add('error');
+    input.classList.remove('modified');
+  } else {
+    input.classList.remove('error');
+    tempP[key]=v;
+    input.classList.toggle('modified', v!==DEFAULT_P[key]);
+  }
+}
+
+function guardarParams(){
+  // Verificar que no haya errores
+  const errors=document.querySelectorAll('.params-row input.error');
+  if(errors.length>0){
+    document.getElementById('saveInfo').textContent='⚠️ Corregí los valores en rojo antes de guardar';
+    document.getElementById('saveInfo').style.color='var(--red)';
+    return;
+  }
+  P=Object.assign({},tempP);
+  try{
+    localStorage.setItem('medina_params_v1',JSON.stringify(P));
+    const btn=document.getElementById('btnSave');
+    btn.textContent='✅ Guardado';
+    btn.className='btn-save saved';
+    document.getElementById('saveInfo').textContent='✓ Guardado en este dispositivo · '+new Date().toLocaleTimeString('es-AR');
+    document.getElementById('saveInfo').style.color='var(--green)';
+    setTimeout(()=>{
+      btn.textContent='💾 Guardar';
+      btn.className='btn-save';
+      document.getElementById('saveInfo').style.color='';
+    },3000);
+  } catch(e){
+    document.getElementById('saveInfo').textContent='❌ Error al guardar: '+e.message;
+    document.getElementById('saveInfo').style.color='var(--red)';
+  }
+}
+
+function resetParams(){
+  if(!confirm('¿Restaurar todos los parámetros a los valores por defecto?'))return;
+  try{localStorage.removeItem('medina_params_v1');}catch(e){}
+  P=Object.assign({},DEFAULT_P);
+  renderParams();
+  document.getElementById('saveInfo').textContent='↺ Valores por defecto restaurados';
+  document.getElementById('saveInfo').style.color='var(--amber)';
+}
+
+// ─── FUNCIONES BASE ───────────────────────────────────────────────────────────
 function bol25(kg){return Math.ceil(kg/25);}
 function showTab(t){
   document.getElementById('tab-dim').style.display=t==='dim'?'block':'none';
@@ -404,10 +642,11 @@ function toggleSec(id,force){
   if(force===undefined)c.checked=!c.checked;
   b.style.display=c.checked?'block':'none';
 }
-function n(id){return parseFloat(document.getElementById(id).value)||0;}
-function s(id){return document.getElementById(id).value;}
+function nv(id){return parseFloat(document.getElementById(id).value)||0;}
+function sv(id){return document.getElementById(id).value;}
 function chk(id){return document.getElementById('chk-'+id).checked;}
 
+// ─── MOTOR DE CÓMPUTO (usa P dinámico) ───────────────────────────────────────
 function calcular(){
   const res={};
   function add(sec,mat,qty,unit,nota){
@@ -416,126 +655,165 @@ function calcular(){
     if(ex)ex.qty+=qty; else res[sec].push({mat,qty,unit,nota:nota||''});
   }
 
-  /* PLATEA DE FUNDACIÓN */
+  /* PLATEA */
   if(chk('platea')){
-    const largo   = n('plat_largo');
-    const ancho   = n('plat_ancho');
-    const esp_cm  = n('plat_espesor');
-    const esp_m   = esp_cm / 100;
-    const supPlat = largo * ancho;
-    const volPlat = supPlat * esp_m;
-
-    // Hormigón H-21 elaborado (m³ exacto, sin desperdicio por bomba)
-    add('Platea de fundación','Hormigón elaborado H-21',parseFloat(volPlat.toFixed(2)),'m³','Volumen neto — pedir según plano');
-
-    // Mallas de acero 3×2 m (Ø6 c/15 cm) — una sola capa, 10% solapes
-    // Área de malla = 3×2 = 6 m²
-    const mallasTot = Math.ceil(supPlat / 6 * 1.10);
-    add('Platea de fundación','Malla de acero electrosoldada Ø6 c/15 cm (panel 3×2 m)',mallasTot,'panel','Una capa — 10% solapes inc.');
-
-    // Separadores / soportes para malla inferior (1 cada 0.5 m²)
-    add('Platea de fundación','Separador plástico malla inferior',Math.ceil(supPlat * 2),'unidad','1 cada 0,5 m²');
-
-    // Alambre recocido para atar mallas
-    add('Platea de fundación','Alambre recocido',Math.ceil(supPlat * 0.15),'kg','Atado de mallas');
+    const sup=nv('plat_largo')*nv('plat_ancho');
+    const vol=sup*(nv('plat_espesor')/100);
+    add('Platea de fundación','Hormigón elaborado H-21',parseFloat(vol.toFixed(2)),'m³','Volumen neto — pedir según plano');
+    add('Platea de fundación','Malla de acero electrosoldada Ø6 c/15 cm (panel 3×2 m)',Math.ceil(sup/P.plat_malla_area*P.plat_malla_solape),'panel','Una capa — '+Math.round((P.plat_malla_solape-1)*100)+'% solapes inc.');
+    add('Platea de fundación','Separador plástico malla inferior',Math.ceil(sup*P.plat_sep_porM2),'unidad','1 cada '+(1/P.plat_sep_porM2).toFixed(1)+' m²');
+    add('Platea de fundación','Alambre recocido',Math.ceil(sup*P.plat_alambre_kgM2),'kg','Atado de mallas');
   }
 
-  /* CIMIENTOS — Hormigón pobre con granza */
+  /* CIMIENTOS */
   if(chk('cim')){
-    // Volumen total de la zanja
-    const volCim = n('cim_long') * n('cim_ancho') * n('cim_prof');
-
-    // ── Hormigón pobre: 180 kg cem.albañilería + 25 kg Portland por m³
-    // Arena gruesa: ~0.45 m³/m³ · Granza 10/20: ~0.65 m³/m³
-    add('Cimientos','Cemento de albañilería (bolsa 25 kg)',bol25(volCim * 180 * D),'bolsa','~180 kg/m³ horm. pobre');
-    add('Cimientos','Cemento Portland (bolsa 25 kg)',bol25(volCim * 25 * D),'bolsa','~25 kg/m³ refuerzo Portland');
-    add('Cimientos','Arena gruesa',parseFloat((volCim * 0.45 * D).toFixed(2)),'m³','Horm. pobre');
-    add('Cimientos','Granza / piedra partida 10/20',parseFloat((volCim * 0.65 * D).toFixed(2)),'m³','Horm. pobre');
-
-    // ── Agua (referencia)
-    add('Cimientos','Agua (referencia)',parseFloat((volCim * 0.18).toFixed(2)),'m³','~180 lt/m³ de hormigón');
+    const vol=nv('cim_long')*nv('cim_ancho')*nv('cim_prof');
+    add('Cimientos','Cemento de albañilería (bolsa 25 kg)',bol25(vol*P.cim_cemAlb_kgM3*P.D),'bolsa','~'+P.cim_cemAlb_kgM3+' kg/m³');
+    add('Cimientos','Cemento Portland (bolsa 25 kg)',bol25(vol*P.cim_portland_kgM3*P.D),'bolsa','~'+P.cim_portland_kgM3+' kg/m³ refuerzo');
+    add('Cimientos','Arena gruesa',parseFloat((vol*P.cim_arena_m3M3*P.D).toFixed(2)),'m³');
+    add('Cimientos','Granza / piedra partida 10/20',parseFloat((vol*P.cim_granza_m3M3*P.D).toFixed(2)),'m³');
+    add('Cimientos','Agua (referencia)',parseFloat((vol*P.cim_agua_m3M3).toFixed(2)),'m³','~'+(P.cim_agua_m3M3*1000)+' lt/m³');
   }
 
   /* MAMPOSTERÍA */
   if(chk('mamp')){
-    const supM=n('muro_long')*n('alt_muros')-n('sup_aberturas');
-    const rTab={comun:37,ceramico:16,ceramico12:14,bloque:12.5};
-    const nTab={comun:'Ladrillo común 18×9×6',ceramico:'Ladrillo cerámico hueco 8 cm',ceramico12:'Ladrillo cerámico hueco 12 cm',bloque:'Bloque de hormigón 20 cm'};
-    const t=s('tipo_ladrillo');
-    add('Mampostería',nTab[t],Math.ceil(supM*rTab[t]*D),'unidad',rTab[t]+' un./m²');
-    add('Mampostería','Cemento de albañilería (bolsa 25 kg)',bol25(supM*4*D),'bolsa','Mortero asiento 1:4 c/arena');
-    add('Mampostería','Arena gruesa',parseFloat((supM*0.02*D).toFixed(2)),'m³','Mortero de asiento');
-    const lE=n('muro_long');
-    add('Mampostería','Cemento Portland (bolsa 25 kg)',bol25(lE*0.03*150*D),'bolsa','Hormigón viga encadenada sup.');
-    add('Mampostería','Arena gruesa',parseFloat((lE*0.03*0.55).toFixed(2)),'m³','Viga encadenada');
-    add('Mampostería','Piedra partida 6/20',parseFloat((lE*0.03*0.75).toFixed(2)),'m³','Viga encadenada');
-    add('Mampostería','Hierro Ø10 mm (varilla 12 m)',Math.ceil(lE*2/12*D),'unidad','2Ø10 longitudinales');
-    add('Mampostería','Hierro Ø6 mm (varilla 12 m)',Math.ceil(lE/0.2*0.6/12*D),'unidad','Estribos c/20 cm');
+    const lMuro = nv('muro_long');
+    const hMuro = nv('alt_muros');
+    const supM  = lMuro * hMuro - nv('sup_aberturas');
+    const t     = sv('tipo_ladrillo');
+    const dosif = sv('dosif_mortero');
+
+    // ── Tablas de rendimiento (unidades/m²) ──────────────────────────────────
+    const rTab = {
+      comun:     P.mamp_comun_m2,   // 37 un/m²
+      ceramico:  P.mamp_cer8_m2,    // 16 un/m²
+      ceramico12:P.mamp_cer12_m2,   // 14 un/m²
+      bloque:    P.mamp_bloque_m2   // 12.5 un/m²
+    };
+    const nTab = {
+      comun:     'Ladrillo común 18×9×6 cm',
+      ceramico:  'Ladrillo cerámico hueco 8 cm',
+      ceramico12:'Ladrillo cerámico hueco 12 cm',
+      bloque:    'Bloque de hormigón 20 cm'
+    };
+
+    // ── Dosificación mortero de asiento ─────────────────────────────────────
+    // Referencia: Vol. mortero por junta ≈ 0.030 m³/m² (ladrillo común)
+    //             0.022 m³/m² (cerámico 8), 0.025 m³/m² (cerámico 12/bloque)
+    // Relación cemento:arena en volumen → kg cemento alb. por m³ de mortero:
+    //   1:3 → 280 kg/m³  |  1:4 → 220 kg/m³  |  1:6 → 160 kg/m³
+    const volMortM2 = {comun:0.030, ceramico:0.022, ceramico12:0.025, bloque:0.025};
+    const cemKgM3   = {'1_3':280, '1_4':220, '1_6':160};
+    const areM3M3   = {'1_3':0.84, '1_4':0.88, '1_6':0.92}; // m³ arena / m³ mortero
+    const dosLabel  = {'1_3':'1:3','1_4':'1:4','1_6':'1:6'};
+
+    const volMort = supM * volMortM2[t];
+    const cemAlbKg = volMort * cemKgM3[dosif];
+    const arenaM3  = volMort * areM3M3[dosif];
+
+    // Ladrillos / bloques
+    add('Mampostería', nTab[t], Math.ceil(supM * rTab[t] * P.D), 'unidad',
+      rTab[t]+' un./m² — sup. neta: '+supM.toFixed(1)+' m²');
+
+    // Mortero de asiento
+    add('Mampostería', 'Cemento de albañilería (bolsa 25 kg)',
+      bol25(cemAlbKg * P.D), 'bolsa',
+      'Mortero '+dosLabel[dosif]+' — ~'+Math.round(cemKgM3[dosif])+' kg/m³');
+    add('Mampostería', 'Arena gruesa',
+      parseFloat((arenaM3 * P.D).toFixed(2)), 'm³',
+      'Mortero de asiento dosif. '+dosLabel[dosif]);
+
+    // ── Viga encadenada superior ─────────────────────────────────────────────
+    if(sv('inc_encadenado')==='si'){
+      // Sección típica 15×20 cm = 0.03 m² | H-17: ~220 kg cem Portland/m³
+      const secEnc = P.mamp_enc_seccion; // 0.03 m²
+      const volEnc = lMuro * secEnc;
+      add('Mampostería', 'Cemento Portland (bolsa 25 kg)',
+        bol25(volEnc * P.mamp_enc_cem_kgM3 * P.D), 'bolsa',
+        'Viga encadenada sup. sec.'+Math.round(secEnc*10000)/100+' cm');
+      add('Mampostería', 'Arena gruesa',
+        parseFloat((volEnc * 0.55).toFixed(2)), 'm³', 'Viga encadenada');
+      add('Mampostería', 'Piedra partida 6/20',
+        parseFloat((volEnc * 0.75).toFixed(2)), 'm³', 'Viga encadenada');
+      add('Mampostería', 'Hierro Ø10 mm (varilla 12 m)',
+        Math.ceil(lMuro * 2 / 12 * P.D), 'unidad', '2Ø10 longitudinales');
+      add('Mampostería', 'Hierro Ø6 mm (varilla 12 m)',
+        Math.ceil(lMuro / 0.2 * 0.6 / 12 * P.D), 'unidad', 'Estribos c/20 cm');
+    }
+
+    // ── Columnas de encadenado ───────────────────────────────────────────────
+    const col = nv('cant_col');
+    if(col > 0){
+      add('Mampostería', 'Hierro Ø12 mm (varilla 12 m)',
+        Math.ceil(col * 4 * hMuro / 12 * P.D), 'unidad', 'Columnas 4Ø12');
+      add('Mampostería', 'Hierro Ø6 mm (varilla 12 m)',
+        Math.ceil(col * hMuro / 0.2 * 0.8 / 12 * P.D), 'unidad', 'Estribos col. c/20 cm');
+    }
   }
 
   /* REVOQUES */
   if(chk('rev')){
-    const ext=n('rev_ext'),intr=n('rev_int'),t=s('tipo_rev');
-    add('Revoques','Cemento de albañilería (bolsa 25 kg)',bol25(ext*3.5*D),'bolsa','Jaharro exterior e=15 mm');
-    add('Revoques','Arena gruesa',parseFloat((ext*0.015*D).toFixed(2)),'m³','Base jaharro exterior');
-    add('Revoques','Revoque fino a la cal — stuko (bolsa 25 kg)',Math.ceil(ext/9*D),'bolsa','Terminación exterior ~9 m²/bol');
-    add('Revoques','Malla fibra de vidrio (rollo 50 m)',Math.ceil(ext/40),'rollo','Antifisuración bajo stuko');
-    add('Revoques','Cemento de albañilería (bolsa 25 kg)',bol25(intr*3.5*D),'bolsa','Jaharro interior e=12 mm');
-    add('Revoques','Arena fina',parseFloat((intr*0.012*D).toFixed(2)),'m³','Base jaharro interior');
+    const ext=nv('rev_ext'),intr=nv('rev_int'),t=sv('tipo_rev');
+    add('Revoques','Cemento de albañilería (bolsa 25 kg)',bol25(ext*P.rev_jahExt_cemAlb_kgM2*P.D),'bolsa','Jaharro exterior');
+    add('Revoques','Arena gruesa',parseFloat((ext*P.rev_jahExt_arena_m3M2*P.D).toFixed(2)),'m³','Jaharro exterior');
+    add('Revoques','Revoque fino a la cal — stuko (bolsa 25 kg)',Math.ceil(ext/P.rev_stuko_m2Bol*P.D),'bolsa','Terminación exterior ~'+P.rev_stuko_m2Bol+' m²/bol');
+    add('Revoques','Malla fibra de vidrio (rollo 50 m)',Math.ceil(ext/P.rev_malla_m2Rollo),'rollo','Antifisuración exterior');
+    add('Revoques','Cemento de albañilería (bolsa 25 kg)',bol25(intr*P.rev_jahInt_cemAlb_kgM2*P.D),'bolsa','Jaharro interior');
+    add('Revoques','Arena fina',parseFloat((intr*P.rev_jahInt_arena_m3M2*P.D).toFixed(2)),'m³','Jaharro interior');
     if(t==='stuko'){
-      add('Revoques','Revoque fino a la cal — stuko (bolsa 25 kg)',Math.ceil(intr/9*D),'bolsa','Terminación interior ~9 m²/bol');
+      add('Revoques','Revoque fino a la cal — stuko (bolsa 25 kg)',Math.ceil(intr/P.rev_stuko_m2Bol*P.D),'bolsa','Terminación interior ~'+P.rev_stuko_m2Bol+' m²/bol');
     } else if(t==='yeso'){
-      add('Revoques','Yeso proyectable (bolsa 25 kg)',Math.ceil(intr/2.5*D),'bolsa','~2.5 m²/bol');
+      add('Revoques','Yeso proyectable (bolsa 25 kg)',Math.ceil(intr/P.rev_yeso_m2Bol*P.D),'bolsa','~'+P.rev_yeso_m2Bol+' m²/bol');
     } else {
-      add('Revoques','Cemento Portland (bolsa 25 kg)',bol25(intr*4*D),'bolsa','Revoque fino cemento e=5 mm');
-      add('Revoques','Arena fina',parseFloat((intr*0.008*D).toFixed(2)),'m³','Revoque fino cemento');
+      add('Revoques','Cemento Portland (bolsa 25 kg)',bol25(intr*P.rev_cemFino_kgM2*P.D),'bolsa','Revoque fino cemento');
+      add('Revoques','Arena fina',parseFloat((intr*P.rev_cemFino_arena_m3M2*P.D).toFixed(2)),'m³','Revoque fino cemento');
     }
   }
 
   /* PISOS */
   if(chk('piso')){
-    const sup=n('sup_piso'),t=s('tipo_piso');
-    add('Pisos','Cemento de albañilería (bolsa 25 kg)',bol25(sup*20*D),'bolsa','Contrapiso e=10 cm 1:5');
-    add('Pisos','Tosca / cascote',parseFloat((sup*0.09).toFixed(2)),'m³','Relleno contrapiso');
-    add('Pisos','Cemento Portland (bolsa 25 kg)',bol25(sup*5.4*D),'bolsa','Carpeta nivelante e=3 cm');
-    add('Pisos','Arena fina',parseFloat((sup*0.03*0.55*D).toFixed(2)),'m³','Carpeta');
+    const sup=nv('sup_piso'),t=sv('tipo_piso');
+    add('Pisos','Cemento de albañilería (bolsa 25 kg)',bol25(sup*P.piso_cp_cemAlb_kgM2*P.D),'bolsa','Contrapiso e=10 cm');
+    add('Pisos','Tosca / cascote',parseFloat((sup*P.piso_cp_tosca_m3M2).toFixed(2)),'m³','Relleno contrapiso');
+    add('Pisos','Cemento Portland (bolsa 25 kg)',bol25(sup*P.piso_carp_port_kgM2*P.D),'bolsa','Carpeta nivelante e=3 cm');
+    add('Pisos','Arena fina',parseFloat((sup*P.piso_carp_arena_m3M2*P.D).toFixed(2)),'m³','Carpeta');
     if(t==='ceramica'){
-      add('Pisos','Cerámica 35×35',Math.ceil(sup*D),'m²','10% desperdicio inc.');
-      add('Pisos','Pegamento cerámico (bolsa 25 kg)',Math.ceil(sup/4*D),'bolsa','~4 m²/bolsa');
-      add('Pisos','Pastina (bolsa 1 kg)',Math.ceil(sup/8),'bolsa','~8 m²/bolsa');
+      add('Pisos','Cerámica 35×35',Math.ceil(sup*P.D),'m²','10% desperdicio inc.');
+      add('Pisos','Pegamento cerámico (bolsa 25 kg)',Math.ceil(sup/P.piso_cer_peg_m2Bol*P.D),'bolsa','~'+P.piso_cer_peg_m2Bol+' m²/bolsa');
+      add('Pisos','Pastina (bolsa 1 kg)',Math.ceil(sup/P.piso_cer_past_m2Kg),'bolsa','~'+P.piso_cer_past_m2Kg+' m²/bolsa');
     } else if(t==='porcelanato'){
-      add('Pisos','Porcelanato 60×60',Math.ceil(sup*D),'m²','10% desperdicio inc.');
-      add('Pisos','Pegamento porcelanato flex. (bolsa 25 kg)',Math.ceil(sup/3.5*D),'bolsa','~3.5 m²/bolsa');
-      add('Pisos','Pastina porcelanato (bolsa 1 kg)',Math.ceil(sup/10),'bolsa','~10 m²/bolsa');
+      add('Pisos','Porcelanato 60×60',Math.ceil(sup*P.D),'m²','10% desperdicio inc.');
+      add('Pisos','Pegamento porcelanato flex. (bolsa 25 kg)',Math.ceil(sup/P.piso_por_peg_m2Bol*P.D),'bolsa','~'+P.piso_por_peg_m2Bol+' m²/bolsa');
+      add('Pisos','Pastina porcelanato (bolsa 1 kg)',Math.ceil(sup/P.piso_por_past_m2Kg),'bolsa','~'+P.piso_por_past_m2Kg+' m²/bolsa');
     } else {
-      add('Pisos','Kit microcemento (base+color+sellador)',Math.ceil(sup/5),'kit','1 kit cada 5 m²');
+      add('Pisos','Kit microcemento (base+color+sellador)',Math.ceil(sup/P.piso_mc_m2Kit),'kit','1 kit cada '+P.piso_mc_m2Kit+' m²');
       add('Pisos','Lija 120 y 220',2,'pliego');
     }
   }
 
   /* CUBIERTA */
   if(chk('cub')){
-    const sup=n('sup_techo'),t=s('tipo_techo');
+    const sup=nv('sup_techo'),t=sv('tipo_techo');
     if(t==='chapa'){
-      add('Cubierta','Chapa galvanizada sinusoidal C25',Math.ceil(sup*1.12),'m²','12% solape inc.');
+      add('Cubierta','Chapa galvanizada sinusoidal C25',Math.ceil(sup*P.cub_chapa_solape),'m²',Math.round((P.cub_chapa_solape-1)*100)+'% solape inc.');
       add('Cubierta','Madera pino cepillado 2"×4" (6 m)',Math.ceil(sup/2.5),'unidad','Correas c/60 cm');
       add('Cubierta','Madera pino 3"×4" (6 m)',Math.ceil(sup/8),'unidad','Cabios y soleras');
       add('Cubierta','Tornillo autoperforante 1"',Math.ceil(sup*5),'unidad','~5/m²');
       add('Cubierta','Caballete chapa galv.',Math.ceil(Math.sqrt(sup)*0.15),'metro');
     } else if(t==='teja'){
-      add('Cubierta','Teja cerámica española',Math.ceil(sup*16*D),'unidad','16 tejas/m²');
-      add('Cubierta','Madera pino 2"×4" (6 m) — latas',Math.ceil(sup/1.5),'unidad','c/33 cm');
-      add('Cubierta','Madera pino 3"×5" (6 m) — cabios',Math.ceil(sup/6),'unidad');
-      add('Cubierta','Clavo 2.5"',Math.ceil(sup*3/40),'kg','~3 clavos/m²');
-      add('Cubierta','Cemento de albañilería (bolsa 25 kg)',bol25(sup*1.5*D),'bolsa','Mortero asiento canaleta');
-      add('Cubierta','Arena fina',parseFloat((sup*0.003*D).toFixed(2)),'m³');
+      add('Cubierta','Teja cerámica española',Math.ceil(sup*P.cub_teja_m2*P.D),'unidad',P.cub_teja_m2+' tejas/m²');
+      add('Cubierta','Madera pino 2"×4" (6 m) — latas',Math.ceil(sup/P.cub_teja_latas_m2Ud),'unidad','c/'+Math.round(P.cub_teja_latas_m2Ud*100)+' cm');
+      add('Cubierta','Madera pino 3"×5" (6 m) — cabios',Math.ceil(sup/P.cub_teja_cabios_m2Ud),'unidad');
+      add('Cubierta','Clavo 2.5"',Math.ceil(sup*P.cub_teja_clavos_kgM2),'kg');
+      add('Cubierta','Cemento de albañilería (bolsa 25 kg)',bol25(sup*P.cub_teja_mort_kgM2*P.D),'bolsa','Mortero canaleta/caballete');
+      add('Cubierta','Arena fina',parseFloat((sup*0.003*P.D).toFixed(2)),'m³');
     } else if(t==='losa'){
-      const vol=sup*0.12;
-      add('Cubierta','Cemento Portland (bolsa 25 kg)',bol25(vol*250*D),'bolsa','Losa H-17 e=12 cm');
+      const vol=sup*P.cub_losa_esp_m;
+      add('Cubierta','Cemento Portland (bolsa 25 kg)',bol25(vol*P.cub_losa_port_kgM3*P.D),'bolsa','Losa H-17 e='+Math.round(P.cub_losa_esp_m*100)+' cm');
       add('Cubierta','Arena gruesa',parseFloat((vol*0.55).toFixed(2)),'m³');
       add('Cubierta','Piedra partida 6/20',parseFloat((vol*0.75).toFixed(2)),'m³');
-      add('Cubierta','Hierro Ø8 mm (varilla 12 m)',Math.ceil(sup*3.5/12*D),'unidad','Malla Ø8 c/20 cm doble');
-      add('Cubierta','Membrana asfáltica 4 mm (rollo 10 m²)',Math.ceil(sup*1.1/10),'rollo','10% solape');
+      add('Cubierta','Hierro Ø8 mm (varilla 12 m)',Math.ceil(sup*P.cub_losa_hier_mM2/12*P.D),'unidad','Malla Ø8 c/20 cm doble');
+      add('Cubierta','Membrana asfáltica 4 mm (rollo 10 m²)',Math.ceil(sup*P.cub_memb_solape/P.cub_memb_m2Rollo),'rollo',Math.round((P.cub_memb_solape-1)*100)+'% solape');
       add('Cubierta','Adhesivo asfáltico en frío',Math.ceil(sup/5),'lt');
       add('Cubierta','Encofrado fenólico 18 mm',Math.ceil(sup*0.5),'m²','Fondo de losa');
     } else {
@@ -547,16 +825,16 @@ function calcular(){
 
   /* SANITARIA */
   if(chk('san')){
-    const ban=n('cant_ban'),coc=n('cant_coc'),col=n('long_col');
-    const bD=ban*3+coc*2, lA=(ban+coc)*8;
-    add('Sanitaria','Caño PVC cloacal 110 mm',Math.ceil(col*D),'metro','Colectora principal');
-    add('Sanitaria','Caño PVC cloacal 75 mm',Math.ceil(bD*2.5*D),'metro','Ramales de descarga');
-    add('Sanitaria','Caño PVC cloacal 50 mm',Math.ceil((ban*2+coc)*3),'metro','Ventilaciones y bajadas');
-    add('Sanitaria','Caño PVC cloacal 40 mm',Math.ceil((ban+coc)*4),'metro','Desagüe piletas');
-    add('Sanitaria','Caño PVC presión 3/4"',Math.ceil(lA*D),'metro','Alimentación fría');
-    add('Sanitaria','Caño CPVC 1/2"',Math.ceil((ban+coc)*6*D),'metro','Agua caliente');
-    add('Sanitaria','Cemento de contacto PVC 200 cc',Math.ceil(bD*1.5),'unidad');
-    add('Sanitaria','Cinta teflón',Math.ceil((ban+coc)*4),'rollo');
+    const ban=nv('cant_ban'),coc=nv('cant_coc'),col=nv('long_col');
+    const bD=ban*3+coc*2,lA=(ban+coc)*P.san_pres_mAmb;
+    add('Sanitaria','Caño PVC cloacal 110 mm',Math.ceil(col*P.D),'metro','Colectora principal');
+    add('Sanitaria','Caño PVC cloacal 75 mm',Math.ceil(bD*P.san_pvc75_mBoca*P.D),'metro','Ramales de descarga');
+    add('Sanitaria','Caño PVC cloacal 50 mm',Math.ceil((ban*P.san_pvc50_mBan+coc)*3),'metro','Ventilaciones y bajadas');
+    add('Sanitaria','Caño PVC cloacal 40 mm',Math.ceil((ban+coc)*P.san_pvc40_mAmb),'metro','Desagüe piletas');
+    add('Sanitaria','Caño PVC presión 3/4"',Math.ceil(lA*P.D),'metro','Alimentación fría');
+    add('Sanitaria','Caño CPVC 1/2"',Math.ceil((ban+coc)*P.san_cpvc_mAmb*P.D),'metro','Agua caliente');
+    add('Sanitaria','Cemento de contacto PVC 200 cc',Math.ceil(bD*P.san_cc_porBoca),'unidad');
+    add('Sanitaria','Cinta teflón',Math.ceil((ban+coc)*P.san_tef_porAmb),'rollo');
     if(ban>0){
       add('Sanitaria','Inodoro + mochila',ban,'juego');
       add('Sanitaria','Bidet',ban,'unidad');
@@ -573,20 +851,20 @@ function calcular(){
 
   /* ELÉCTRICA */
   if(chk('elec')){
-    const amb=n('cant_amb'),bocas=n('bocas_amb'),total=amb*bocas;
-    add('Eléctrica','Caño corrugado 3/4" (rollo 50 m)',Math.ceil(total*3/50*D),'rollo','~3 m/boca');
-    add('Eléctrica','Cable unipolar 2.5 mm² negro (rollo 100 m)',Math.ceil(total*5/100*D),'rollo','Fase');
-    add('Eléctrica','Cable unipolar 2.5 mm² celeste (rollo 100 m)',Math.ceil(total*5/100*D),'rollo','Neutro');
-    add('Eléctrica','Cable unipolar 2.5 mm² verde-amarillo (rollo 100 m)',Math.ceil(total*4/100*D),'rollo','Tierra');
-    add('Eléctrica','Cable bipolar 4 mm² (rollo 100 m)',Math.ceil(amb*10/100*D),'rollo','Alta demanda');
-    add('Eléctrica','Caja rectangular chica',Math.ceil(total*0.7),'unidad');
-    add('Eléctrica','Caja cuadrada 100×100',Math.ceil(amb*2),'unidad','Cajas de paso');
-    add('Eléctrica','Tablero modular 12 módulos',Math.ceil(amb/3),'unidad');
-    add('Eléctrica','Disyuntor 16 A',Math.ceil(total/8),'unidad');
+    const amb=nv('cant_amb'),bocas=nv('bocas_amb'),total=amb*bocas;
+    add('Eléctrica','Caño corrugado 3/4" (rollo 50 m)',Math.ceil(total*P.elec_cano_mBoca/50*P.D),'rollo','~'+P.elec_cano_mBoca+' m/boca');
+    add('Eléctrica','Cable unipolar 2.5 mm² negro (rollo 100 m)',Math.ceil(total*P.elec_cabF_mBoca/100*P.D),'rollo','Fase');
+    add('Eléctrica','Cable unipolar 2.5 mm² celeste (rollo 100 m)',Math.ceil(total*P.elec_cabN_mBoca/100*P.D),'rollo','Neutro');
+    add('Eléctrica','Cable unipolar 2.5 mm² verde-amarillo (rollo 100 m)',Math.ceil(total*P.elec_cabT_mBoca/100*P.D),'rollo','Tierra');
+    add('Eléctrica','Cable bipolar 4 mm² (rollo 100 m)',Math.ceil(amb*P.elec_cabAD_mAmb/100*P.D),'rollo','Alta demanda');
+    add('Eléctrica','Caja rectangular chica',Math.ceil(total*P.elec_cajaR_porBoca),'unidad');
+    add('Eléctrica','Caja cuadrada 100×100',Math.ceil(amb*P.elec_cajaC_porAmb),'unidad','Cajas de paso');
+    add('Eléctrica','Tablero modular 12 módulos',Math.ceil(amb/P.elec_tablero_poAmb),'unidad');
+    add('Eléctrica','Disyuntor 16 A',Math.ceil(total/P.elec_disyuntor_bocas),'unidad');
     add('Eléctrica','Llave termomagnética 32 A',1,'unidad','General');
-    add('Eléctrica','Toma 2P+T schuko',Math.ceil(total*0.5),'unidad');
-    add('Eléctrica','Llave simple / bipolar',Math.ceil(total*0.3),'unidad');
-    add('Eléctrica','Caño semipesado 3/4" (6 m)',Math.ceil(amb*3),'unidad','Bajada y acometida');
+    add('Eléctrica','Toma 2P+T schuko',Math.ceil(total*P.elec_toma_porBoca),'unidad');
+    add('Eléctrica','Llave simple / bipolar',Math.ceil(total*P.elec_llave_porBoca),'unidad');
+    add('Eléctrica','Caño semipesado 3/4" (6 m)',Math.ceil(amb*P.elec_canoSP_porAmb),'unidad','Bajada y acometida');
   }
 
   /* RENDER */
@@ -602,38 +880,20 @@ function calcular(){
     Sanitaria:'M12 2v6m0 0C9 8 6 10 6 14a6 6 0 0012 0c0-4-3-6-6-6z',
     'Eléctrica':'M13 2 3 14h9l-1 8 10-12h-9l1-8z'
   };
-
-  let html=`<div class="sum-note">Cantidades con 10% de desperdicio incluido. Todas las bolsas en presentación comercial de 25 kg. Verificar con el profesional antes de hacer el pedido.</div>`;
+  let html=`<div class="sum-note">Cantidades con ${Math.round((P.D-1)*100)}% de desperdicio incluido. Todas las bolsas en presentación comercial de 25 kg. Verificar con el profesional antes de hacer el pedido.</div>`;
   html+=`<div style="margin-bottom:1rem"><div style="font-size:16px;font-weight:600">${proj}</div><div style="font-size:12px;color:var(--text2);margin-top:3px">Cómputo generado el ${today}</div></div>`;
-
   Object.keys(res).forEach(sec=>{
     const ic=secIcons[sec]||'M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5';
-    html+=`<div class="res-section">
-      <div class="res-sec-title">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="${ic}"/></svg>
-        ${sec}
-      </div>`;
+    html+=`<div class="res-section"><div class="res-sec-title"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="${ic}"/></svg>${sec}</div>`;
     res[sec].forEach(r=>{
-      const q=Math.ceil(r.qty);
-      html+=`<div class="res-row">
-        <span class="res-mat">${r.mat}${r.nota?'<span class="res-note">'+r.nota+'</span>':''}</span>
-        <span class="res-qty">${q} ${r.unit}</span>
-      </div>`;
+      html+=`<div class="res-row"><span class="res-mat">${r.mat}${r.nota?'<span class="res-note">'+r.nota+'</span>':''}</span><span class="res-qty">${Math.ceil(r.qty)} ${r.unit}</span></div>`;
     });
     html+=`</div>`;
   });
-
   html+=`<div class="footer-btns">
-    <button onclick="window.print()">
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
-      Imprimir / guardar PDF
-    </button>
-    <button onclick="volver()">
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M11 17l-5-5 5-5M18 17l-5-5 5-5"/></svg>
-      Volver a editar
-    </button>
+    <button onclick="window.print()"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>Imprimir / guardar PDF</button>
+    <button onclick="volver()"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M11 17l-5-5 5-5M18 17l-5-5 5-5"/></svg>Volver a editar</button>
   </div>`;
-
   window._lastRes=res;
   document.getElementById('tab-res').innerHTML=html;
   showTab('res');
