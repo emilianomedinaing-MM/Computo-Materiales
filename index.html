@@ -262,7 +262,7 @@ body{background:var(--bg3);color:var(--text);font-family:var(--font);font-size:1
         <div class="fg2" style="margin-bottom:8px">
           <div class="field"><label for="tipo_ladrillo">Tipo de mampostería</label>
             <select id="tipo_ladrillo">
-              <option value="comun">Ladrillo común 18×9×6 cm</option>
+              <option value="comun">Ladrillo común 24×12×5 cm</option>
               <option value="ceramico" selected>Ladrillo cerámico hueco 8 cm</option>
               <option value="ceramico12">Ladrillo cerámico hueco 12 cm</option>
               <option value="bloque">Bloque de hormigón 20 cm</option>
@@ -413,7 +413,7 @@ const DEFAULT_P = {
   D:1.10,
   plat_malla_area:6, plat_malla_solape:1.10, plat_sep_porM2:2, plat_alambre_kgM2:0.15,
   cim_cemAlb_kgM3:180, cim_portland_kgM3:25, cim_arena_m3M3:0.45, cim_granza_m3M3:0.65, cim_agua_m3M3:0.18,
-  mamp_comun_m2:37, mamp_cer8_m2:16, mamp_cer12_m2:14, mamp_bloque_m2:12.5,
+  mamp_comun_m2:60, mamp_cer8_m2:15, mamp_cer12_m2:15, mamp_bloque_m2:12.5,
   mamp_enc_seccion:0.03, mamp_enc_cem_kgM3:150,
   rev_jahExt_cemAlb_kgM2:3.5, rev_jahExt_arena_m3M2:0.015,
   rev_stuko_m2Bol:9, rev_yeso_m2Bol:2.5, rev_cemFino_kgM2:4, rev_cemFino_arena_m3M2:0.008,
@@ -463,7 +463,7 @@ const CATS = [
     {k:'cim_agua_m3M3',    label:'Agua (referencia)',       unit:'m³/m³', min:0.1, max:0.3, step:0.01}
   ]},
   {id:'mamp',label:'🧱 Mampostería',rows:[
-    {k:'mamp_comun_m2',     label:'Ladrillo común 18×9×6',   unit:'un/m²', min:25, max:50,  step:0.5},
+    {k:'mamp_comun_m2',     label:'Ladrillo común 24×12×5',   unit:'un/m²', min:25, max:50,  step:0.5},
     {k:'mamp_cer8_m2',      label:'Cerámico hueco 8 cm',     unit:'un/m²', min:10, max:25,  step:0.5},
     {k:'mamp_cer12_m2',     label:'Cerámico hueco 12 cm',    unit:'un/m²', min:8,  max:20,  step:0.5},
     {k:'mamp_bloque_m2',    label:'Bloque hormigón 20 cm',   unit:'un/m²', min:6,  max:18,  step:0.5},
@@ -703,9 +703,9 @@ function calcular(){
       var tLad = sv('tipo_ladrillo');
       var dosif = sv('dosif_mortero');
       var rTab = {comun:P.mamp_comun_m2, ceramico:P.mamp_cer8_m2, ceramico12:P.mamp_cer12_m2, bloque:P.mamp_bloque_m2};
-      var nTab = {comun:'Ladrillo común 18×9×6 cm', ceramico:'Ladrillo cerámico hueco 8 cm', ceramico12:'Ladrillo cerámico hueco 12 cm', bloque:'Bloque de hormigón 20 cm'};
+      var nTab = {comun:'Ladrillo común 24×12×5 cm', ceramico:'Ladrillo cerámico hueco 8 cm', ceramico12:'Ladrillo cerámico hueco 12 cm', bloque:'Bloque de hormigón 20 cm'};
       // vol mortero por m² según tipo
-      var volMortM2 = {comun:0.030, ceramico:0.022, ceramico12:0.025, bloque:0.025};
+      var volMortM2 = {comun:0.018, ceramico:0.018, ceramico12:0.020, bloque:0.025};
       // kg cem.alb por m³ según dosificación
       var cemKgM3 = {'1_3':280, '1_4':220, '1_6':160};
       var areM3M3 = {'1_3':0.84, '1_4':0.88, '1_6':0.92};
