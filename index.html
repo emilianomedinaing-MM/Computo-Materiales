@@ -632,6 +632,10 @@ function resetParams(){
 
 // ── UI BASE ────────────────────────────────────────────────────────────────
 function bol25(kg){ return Math.ceil(kg / 25); }
+// Redondea m³ de arena al múltiplo de 0.25 superior (fracción mínima comercial)
+function arena25(m3){ return Math.ceil(m3 / 0.25) * 0.25; }
+// Formatea cantidad: m³ con 2 decimales, resto entero
+function fmtQty(qty, unit){ return unit==='m³' ? qty.toFixed(2) : Math.ceil(qty); }
 function showTab(t){
   document.getElementById('tab-dim').style.display = t==='dim' ? 'block' : 'none';
   document.getElementById('tab-res').style.display = t==='res' ? 'block' : 'none';
@@ -688,9 +692,9 @@ function calcular(){
     if(vol2 > 0){
       add('Cimientos','Cemento de albañilería (bolsa 25 kg)', bol25(vol2*P.cim_cemAlb_kgM3*P.D), 'bolsa', '~'+P.cim_cemAlb_kgM3+' kg/m³');
       add('Cimientos','Cemento Portland (bolsa 25 kg)', bol25(vol2*P.cim_portland_kgM3*P.D), 'bolsa', '~'+P.cim_portland_kgM3+' kg/m³ refuerzo');
-      add('Cimientos','Arena gruesa', parseFloat((vol2*P.cim_arena_m3M3*P.D).toFixed(2)), 'm³');
-      add('Cimientos','Granza / piedra partida 10/20', parseFloat((vol2*P.cim_granza_m3M3*P.D).toFixed(2)), 'm³');
-      add('Cimientos','Agua (referencia)', parseFloat((vol2*P.cim_agua_m3M3).toFixed(2)), 'm³', '~'+(P.cim_agua_m3M3*1000)+' lt/m³');
+      add('Cimientos','Arena gruesa', arena25(vol2*P.cim_arena_m3M3*P.D), 'm³');
+      add('Cimientos','Granza / piedra partida 10/20', arena25(vol2*P.cim_granza_m3M3*P.D), 'm³');
+      add('Cimientos','Agua (referencia)', arena25(vol2*P.cim_agua_m3M3), 'm³', '~'+(P.cim_agua_m3M3*1000)+' lt/m³');
     }
   }
 
@@ -714,15 +718,15 @@ function calcular(){
 
       add('Mampostería', nTab[tLad], Math.ceil(supM * rTab[tLad] * P.D), 'unidad', rTab[tLad]+' un./m² — neta: '+supM.toFixed(1)+' m²');
       add('Mampostería','Cemento de albañilería (bolsa 25 kg)', bol25(volMort * cemKgM3[dosif] * P.D), 'bolsa', 'Mortero '+dosLabel[dosif]+' — ~'+Math.round(cemKgM3[dosif])+' kg/m³');
-      add('Mampostería','Arena gruesa', parseFloat((volMort * areM3M3[dosif] * P.D).toFixed(2)), 'm³', 'Mortero asiento dosif. '+dosLabel[dosif]);
+      add('Mampostería','Arena gruesa', arena25(volMort * areM3M3[dosif] * P.D), 'm³', 'Mortero asiento dosif. '+dosLabel[dosif]);
 
       // Viga encadenada
       if(sv('inc_encadenado') === 'si'){
         var secEnc = P.mamp_enc_seccion;
         var volEnc = lMuro * secEnc;
         add('Mampostería','Cemento Portland (bolsa 25 kg)', bol25(volEnc * P.mamp_enc_cem_kgM3 * P.D), 'bolsa', 'Viga encadenada sup.');
-        add('Mampostería','Arena gruesa', parseFloat((volEnc * 0.55).toFixed(2)), 'm³', 'Viga encadenada');
-        add('Mampostería','Piedra partida 6/20', parseFloat((volEnc * 0.75).toFixed(2)), 'm³', 'Viga encadenada');
+        add('Mampostería','Arena gruesa', arena25(volEnc * 0.55), 'm³', 'Viga encadenada');
+        add('Mampostería','Piedra partida 6/20', arena25(volEnc * 0.75), 'm³', 'Viga encadenada');
         add('Mampostería','Hierro Ø10 mm (varilla 12 m)', Math.ceil(lMuro * 2 / 12 * P.D), 'unidad', '2Ø10 longitudinales');
         add('Mampostería','Hierro Ø6 mm (varilla 12 m)', Math.ceil(lMuro / 0.2 * 0.6 / 12 * P.D), 'unidad', 'Estribos c/20 cm');
       }
@@ -740,16 +744,16 @@ function calcular(){
     var ext = nv('rev_ext'), intr = nv('rev_int'), tRev = sv('tipo_rev');
     if(ext > 0){
       add('Revoques','Cemento de albañilería (bolsa 25 kg)', bol25(ext*P.rev_jahExt_cemAlb_kgM2*P.D), 'bolsa', 'Jaharro exterior');
-      add('Revoques','Arena gruesa', parseFloat((ext*P.rev_jahExt_arena_m3M2*P.D).toFixed(2)), 'm³', 'Jaharro exterior');
+      add('Revoques','Arena gruesa', arena25(ext*P.rev_jahExt_arena_m3M2*P.D), 'm³', 'Jaharro exterior');
       add('Revoques','Revoque fino a la cal — stuko (bolsa 25 kg)', Math.ceil(ext/P.rev_stuko_m2Bol*P.D), 'bolsa', 'Terminación exterior ~'+P.rev_stuko_m2Bol+' m²/bol');
       add('Revoques','Malla fibra de vidrio (rollo 50 m)', Math.ceil(ext/P.rev_malla_m2Rollo), 'rollo', 'Antifisuración exterior');
     }
     if(intr > 0){
       add('Revoques','Cemento de albañilería (bolsa 25 kg)', bol25(intr*P.rev_jahInt_cemAlb_kgM2*P.D), 'bolsa', 'Jaharro interior');
-      add('Revoques','Arena fina', parseFloat((intr*P.rev_jahInt_arena_m3M2*P.D).toFixed(2)), 'm³', 'Jaharro interior');
+      add('Revoques','Arena fina', arena25(intr*P.rev_jahInt_arena_m3M2*P.D), 'm³', 'Jaharro interior');
       if(tRev==='stuko') add('Revoques','Revoque fino a la cal — stuko (bolsa 25 kg)', Math.ceil(intr/P.rev_stuko_m2Bol*P.D), 'bolsa', 'Terminación interior ~'+P.rev_stuko_m2Bol+' m²/bol');
       else if(tRev==='yeso') add('Revoques','Yeso proyectable (bolsa 25 kg)', Math.ceil(intr/P.rev_yeso_m2Bol*P.D), 'bolsa', '~'+P.rev_yeso_m2Bol+' m²/bol');
-      else { add('Revoques','Cemento Portland (bolsa 25 kg)', bol25(intr*P.rev_cemFino_kgM2*P.D), 'bolsa', 'Revoque fino cemento'); add('Revoques','Arena fina', parseFloat((intr*P.rev_cemFino_arena_m3M2*P.D).toFixed(2)), 'm³'); }
+      else { add('Revoques','Cemento Portland (bolsa 25 kg)', bol25(intr*P.rev_cemFino_kgM2*P.D), 'bolsa', 'Revoque fino cemento'); add('Revoques','Arena fina', arena25(intr*P.rev_cemFino_arena_m3M2*P.D), 'm³'); }
     }
   }
 
@@ -758,9 +762,9 @@ function calcular(){
     var supP = nv('sup_piso'), tPiso = sv('tipo_piso');
     if(supP > 0){
       add('Pisos','Cemento de albañilería (bolsa 25 kg)', bol25(supP*P.piso_cp_cemAlb_kgM2*P.D), 'bolsa', 'Contrapiso e=10 cm');
-      add('Pisos','Tosca / cascote', parseFloat((supP*P.piso_cp_tosca_m3M2).toFixed(2)), 'm³', 'Relleno contrapiso');
+      add('Pisos','Tosca / cascote', arena25(supP*P.piso_cp_tosca_m3M2), 'm³', 'Relleno contrapiso');
       add('Pisos','Cemento Portland (bolsa 25 kg)', bol25(supP*P.piso_carp_port_kgM2*P.D), 'bolsa', 'Carpeta nivelante e=3 cm');
-      add('Pisos','Arena fina', parseFloat((supP*P.piso_carp_arena_m3M2*P.D).toFixed(2)), 'm³', 'Carpeta');
+      add('Pisos','Arena fina', arena25(supP*P.piso_carp_arena_m3M2*P.D), 'm³', 'Carpeta');
       if(tPiso==='ceramica'){ add('Pisos','Cerámica 35×35', Math.ceil(supP*P.D), 'm²', '10% desp. inc.'); add('Pisos','Pegamento cerámico (bolsa 25 kg)', Math.ceil(supP/P.piso_cer_peg_m2Bol*P.D), 'bolsa'); add('Pisos','Pastina (bolsa 1 kg)', Math.ceil(supP/P.piso_cer_past_m2Kg), 'bolsa'); }
       else if(tPiso==='porcelanato'){ add('Pisos','Porcelanato 60×60', Math.ceil(supP*P.D), 'm²', '10% desp. inc.'); add('Pisos','Pegamento porcelanato flex. (bolsa 25 kg)', Math.ceil(supP/P.piso_por_peg_m2Bol*P.D), 'bolsa'); add('Pisos','Pastina porcelanato (bolsa 1 kg)', Math.ceil(supP/P.piso_por_past_m2Kg), 'bolsa'); }
       else { add('Pisos','Kit microcemento (base+color+sellador)', Math.ceil(supP/P.piso_mc_m2Kit), 'kit', '1 kit cada '+P.piso_mc_m2Kit+' m²'); add('Pisos','Lija 120 y 220', 2, 'pliego'); }
@@ -783,12 +787,12 @@ function calcular(){
         add('Cubierta','Madera pino 3"×5" (6 m) — cabios', Math.ceil(supT/P.cub_teja_cabios_m2Ud), 'unidad');
         add('Cubierta','Clavo 2.5"', Math.ceil(supT*P.cub_teja_clavos_kgM2), 'kg');
         add('Cubierta','Cemento de albañilería (bolsa 25 kg)', bol25(supT*P.cub_teja_mort_kgM2*P.D), 'bolsa', 'Mortero canaleta');
-        add('Cubierta','Arena fina', parseFloat((supT*0.003*P.D).toFixed(2)), 'm³');
+        add('Cubierta','Arena fina', arena25(supT*0.003*P.D), 'm³');
       } else if(tTecho==='losa'){
         var volL = supT * P.cub_losa_esp_m;
         add('Cubierta','Cemento Portland (bolsa 25 kg)', bol25(volL*P.cub_losa_port_kgM3*P.D), 'bolsa', 'Losa H-17 e='+Math.round(P.cub_losa_esp_m*100)+' cm');
-        add('Cubierta','Arena gruesa', parseFloat((volL*0.55).toFixed(2)), 'm³');
-        add('Cubierta','Piedra partida 6/20', parseFloat((volL*0.75).toFixed(2)), 'm³');
+        add('Cubierta','Arena gruesa', arena25(volL*0.55), 'm³');
+        add('Cubierta','Piedra partida 6/20', arena25(volL*0.75), 'm³');
         add('Cubierta','Hierro Ø8 mm (varilla 12 m)', Math.ceil(supT*P.cub_losa_hier_mM2/12*P.D), 'unidad', 'Malla Ø8 c/20 cm doble');
         add('Cubierta','Membrana asfáltica 4 mm (rollo 10 m²)', Math.ceil(supT*P.cub_memb_solape/P.cub_memb_m2Rollo), 'rollo', Math.round((P.cub_memb_solape-1)*100)+'% solape');
         add('Cubierta','Adhesivo asfáltico en frío', Math.ceil(supT/5), 'lt');
@@ -866,7 +870,7 @@ function calcular(){
     var ic = secIcons[sec] || 'M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5';
     html += '<div class="res-section"><div class="res-sec-title"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="'+ic+'"/></svg>'+sec+'</div>';
     res[sec].forEach(function(r){
-      html += '<div class="res-row"><span class="res-mat">'+r.mat+(r.nota?'<span class="res-note">'+r.nota+'</span>':'')+'</span><span class="res-qty">'+Math.ceil(r.qty)+' '+r.unit+'</span></div>';
+      html += '<div class="res-row"><span class="res-mat">'+r.mat+(r.nota?'<span class="res-note">'+r.nota+'</span>':'')+'</span><span class="res-qty">'+fmtQty(r.qty,r.unit)+' '+r.unit+'</span></div>';
     });
     html += '</div>';
   });
@@ -876,7 +880,7 @@ function calcular(){
   html += '<div class="consolidado-title">📋 Resumen consolidado — pedido al corralón</div>';
   html += '<div class="res-section">';
   items.forEach(function(r){
-    html += '<div class="res-row"><span class="res-mat">'+r.mat+'</span><span class="res-qty">'+Math.ceil(r.qty)+' '+r.unit+'</span></div>';
+    html += '<div class="res-row"><span class="res-mat">'+r.mat+'</span><span class="res-qty">'+fmtQty(r.qty,r.unit)+' '+r.unit+'</span></div>';
   });
   html += '</div>';
 
