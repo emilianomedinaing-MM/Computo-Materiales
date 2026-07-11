@@ -218,9 +218,9 @@ body{background:var(--bg3);color:var(--text);font-family:var(--font);font-size:1
       </div>
       <div class="sec-body" id="sec-platea" style="display:none">
         <div class="fg3">
-          <div class="field"><label for="plat_largo">Largo (m)</label><input type="number" id="plat_largo" value="" inputmode="decimal"/></div>
-          <div class="field"><label for="plat_ancho">Ancho (m)</label><input type="number" id="plat_ancho" value="" inputmode="decimal"/></div>
-          <div class="field"><label for="plat_espesor">Espesor (cm)</label><input type="number" id="plat_espesor" value="" inputmode="decimal"/><span class="hint">Típico: 15–20 cm</span></div>
+          <div class="field"><label for="plat_largo">Largo (m)</label><input type="text" id="plat_largo" value="" inputmode="decimal"/></div>
+          <div class="field"><label for="plat_ancho">Ancho (m)</label><input type="text" id="plat_ancho" value="" inputmode="decimal"/></div>
+          <div class="field"><label for="plat_espesor">Espesor (cm)</label><input type="text" id="plat_espesor" value="" inputmode="decimal"/><span class="hint">Típico: 15–20 cm</span></div>
         </div>
       </div>
     </div>
@@ -236,9 +236,9 @@ body{background:var(--bg3);color:var(--text);font-family:var(--font);font-size:1
       </div>
       <div class="sec-body" id="sec-cim" style="display:none">
         <div class="fg3">
-          <div class="field"><label for="cim_long">Long. total (m)</label><input type="number" id="cim_long" value="" inputmode="decimal"/><span class="hint">Perímetro + ejes int.</span></div>
-          <div class="field"><label for="cim_ancho">Ancho (m)</label><input type="number" id="cim_ancho" value="" step="0.05" inputmode="decimal"/></div>
-          <div class="field"><label for="cim_prof">Profundidad (m)</label><input type="number" id="cim_prof" value="" step="0.05" inputmode="decimal"/></div>
+          <div class="field"><label for="cim_long">Long. total (m)</label><input type="text" id="cim_long" value="" inputmode="decimal"/><span class="hint">Perímetro + ejes int.</span></div>
+          <div class="field"><label for="cim_ancho">Ancho (m)</label><input type="text" id="cim_ancho" value="" step="0.05" inputmode="decimal"/></div>
+          <div class="field"><label for="cim_prof">Profundidad (m)</label><input type="text" id="cim_prof" value="" step="0.05" inputmode="decimal"/></div>
         </div>
         <div class="hint" style="margin-top:6px">Hormigón pobre: cem. albañilería + Portland + arena + granza</div>
       </div>
@@ -255,9 +255,9 @@ body{background:var(--bg3);color:var(--text);font-family:var(--font);font-size:1
       </div>
       <div class="sec-body" id="sec-mamp" style="display:none">
         <div class="fg3" style="margin-bottom:8px">
-          <div class="field"><label for="muro_long">Long. total de muros (m)</label><input type="number" id="muro_long" value="" inputmode="decimal"/><span class="hint">Perímetro + tabiques</span></div>
-          <div class="field"><label for="alt_muros">Altura de muros (m)</label><input type="number" id="alt_muros" value="" step="0.05" inputmode="decimal"/><span class="hint">Ej: 2.60 m</span></div>
-          <div class="field"><label for="sup_aberturas">Sup. aberturas (m²)</label><input type="number" id="sup_aberturas" value="" inputmode="decimal"/><span class="hint">Puertas + ventanas</span></div>
+          <div class="field"><label for="muro_long">Long. total de muros (m)</label><input type="text" id="muro_long" value="" inputmode="decimal"/><span class="hint">Perímetro + tabiques</span></div>
+          <div class="field"><label for="alt_muros">Altura de muros (m)</label><input type="text" id="alt_muros" value="" step="0.05" inputmode="decimal"/><span class="hint">Ej: 2.60 m</span></div>
+          <div class="field"><label for="sup_aberturas">Sup. aberturas (m²)</label><input type="text" id="sup_aberturas" value="" inputmode="decimal"/><span class="hint">Puertas + ventanas</span></div>
         </div>
         <div class="fg2" style="margin-bottom:8px">
           <div class="field"><label for="tipo_ladrillo">Tipo de mampostería</label>
@@ -299,8 +299,8 @@ body{background:var(--bg3);color:var(--text);font-family:var(--font);font-size:1
       </div>
       <div class="sec-body" id="sec-rev" style="display:none">
         <div class="fg2" style="margin-bottom:8px">
-          <div class="field"><label for="rev_ext">Sup. revocar exterior (m²)</label><input type="number" id="rev_ext" value="" inputmode="decimal"/></div>
-          <div class="field"><label for="rev_int">Sup. revocar interior (m²)</label><input type="number" id="rev_int" value="" inputmode="decimal"/></div>
+          <div class="field"><label for="rev_ext">Sup. revocar exterior (m²)</label><input type="text" id="rev_ext" value="" inputmode="decimal"/></div>
+          <div class="field"><label for="rev_int">Sup. revocar interior (m²)</label><input type="text" id="rev_int" value="" inputmode="decimal"/></div>
         </div>
         <div class="field"><label for="tipo_rev">Terminación interior</label>
           <select id="tipo_rev">
@@ -323,7 +323,7 @@ body{background:var(--bg3);color:var(--text);font-family:var(--font);font-size:1
       </div>
       <div class="sec-body" id="sec-piso" style="display:none">
         <div class="fg2">
-          <div class="field"><label for="sup_piso">Superficie de pisos (m²)</label><input type="number" id="sup_piso" value="" inputmode="decimal"/></div>
+          <div class="field"><label for="sup_piso">Superficie de pisos (m²)</label><input type="text" id="sup_piso" value="" inputmode="decimal"/></div>
           <div class="field"><label for="tipo_piso">Tipo de piso</label>
             <select id="tipo_piso">
               <option value="ceramica">Cerámica 35×35</option>
@@ -346,7 +346,7 @@ body{background:var(--bg3);color:var(--text);font-family:var(--font);font-size:1
       </div>
       <div class="sec-body" id="sec-cub" style="display:none">
         <div class="fg2">
-          <div class="field"><label for="sup_techo">Superficie de techo (m²)</label><input type="number" id="sup_techo" value="" inputmode="decimal"/><span class="hint">Incluir aleros</span></div>
+          <div class="field"><label for="sup_techo">Superficie de techo (m²)</label><input type="text" id="sup_techo" value="" inputmode="decimal"/><span class="hint">Incluir aleros</span></div>
           <div class="field"><label for="tipo_techo">Tipo de cubierta</label>
             <select id="tipo_techo">
               <option value="chapa">Chapa galvanizada sinusoidal</option>
@@ -372,7 +372,7 @@ body{background:var(--bg3);color:var(--text);font-family:var(--font);font-size:1
         <div class="fg3">
           <div class="field"><label for="cant_ban">Baños completos</label><input type="number" id="cant_ban" value="" min="0" inputmode="numeric"/></div>
           <div class="field"><label for="cant_coc">Cocina / lavadero</label><input type="number" id="cant_coc" value="" min="0" inputmode="numeric"/></div>
-          <div class="field"><label for="long_col">Long. colectora (m)</label><input type="number" id="long_col" value="" inputmode="decimal"/></div>
+          <div class="field"><label for="long_col">Long. colectora (m)</label><input type="text" id="long_col" value="" inputmode="decimal"/></div>
         </div>
       </div>
     </div>
@@ -647,7 +647,7 @@ function toggleSec(id){
   body.style.display = _open[id] ? 'block' : 'none';
   if(arr) arr.style.transform = _open[id] ? 'rotate(180deg)' : '';
 }
-function nv(id){ return parseFloat(document.getElementById(id).value) || 0; }
+function nv(id){ var v=document.getElementById(id).value.replace(/,/g,'.').trim(); return parseFloat(v)||0; }
 function sv(id){ return document.getElementById(id).value; }
 // tiene datos útiles?
 function tieneData(ids){ return ids.some(function(id){ return nv(id) > 0; }); }
