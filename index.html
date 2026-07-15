@@ -382,50 +382,6 @@ body{background:var(--bg3);color:var(--text);font-family:var(--font);font-size:1
       </div>
     </div>
 
-    <!-- CONSTRUCCIÓN EN SECO -->
-    <div class="sec-card">
-      <div class="sec-toggle" onclick="toggleSec('seco')">
-        <div class="stitle">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
-          Construcción en seco
-        </div>
-        <svg class="arr" id="arr-seco" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
-      </div>
-      <div class="sec-body" id="sec-seco" style="display:none">
-
-        <div style="font-size:12px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px">Tabiques — Sistema Knauf W111</div>
-        <div class="fg2" style="margin-bottom:10px">
-          <div class="field">
-            <label for="tab_sup">Superficie de tabiques (m²)</label>
-            <input type="text" id="tab_sup" value="" inputmode="decimal"/>
-            <span class="hint">Sup. neta — descontar aberturas</span>
-          </div>
-          <div class="field">
-            <label for="tab_alt">Altura piso a techo (m)</label>
-            <input type="text" id="tab_alt" value="" inputmode="decimal" placeholder="2.60"/>
-          </div>
-        </div>
-
-        <div style="height:0.5px;background:var(--border);margin:12px 0"></div>
-
-        <div style="font-size:12px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px">Cielorrasos</div>
-        <div class="fg2">
-          <div class="field">
-            <label for="ciel_sup">Superficie de cielorraso (m²)</label>
-            <input type="text" id="ciel_sup" value="" inputmode="decimal"/>
-          </div>
-          <div class="field">
-            <label for="tipo_ciel">Tipo de cielorraso</label>
-            <select id="tipo_ciel">
-              <option value="fijo" selected>Fijo — placa Knauf 35 mm (Barbieri)</option>
-              <option value="desmontable">Desmontable — placas 60×60 (TX Barbieri)</option>
-            </select>
-          </div>
-        </div>
-
-      </div>
-    </div>
-
     <!-- SANITARIA -->
     <div class="sec-card">
       <div class="sec-toggle" onclick="toggleSec('san')">
