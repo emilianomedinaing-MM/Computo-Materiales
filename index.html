@@ -347,52 +347,6 @@ body{background:var(--bg3);color:var(--text);font-family:var(--font);font-size:1
       </div>
       <div class="sec-body" id="sec-seco" style="display:none">
 
-        <!-- SUBRUBRO: TABIQUES -->
-        <div style="font-size:12px;font-weight:600;color:var(--blue);text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px;padding-bottom:4px;border-bottom:1px solid var(--border)">Tabiques — Placa de yeso Knauf / Perfiles Barbieri 70 mm</div>
-        <div class="fg2" style="margin-bottom:12px">
-          <div class="field">
-            <label for="seco_tab_m2">Superficie de tabiques (m²)</label>
-            <input type="text" id="seco_tab_m2" value="" inputmode="decimal"/>
-            <span class="hint">Suma de ambas caras incluida</span>
-          </div>
-          <div class="field">
-            <label for="seco_tab_tipo">Tipo de tabique</label>
-            <select id="seco_tab_tipo">
-              <option value="simple" selected>Simple — 1 placa por cara</option>
-              <option value="doble">Doble — 2 placas por cara</option>
-            </select>
-          </div>
-        </div>
-
-        <!-- SUBRUBRO: CIELORRASOS -->
-        <div style="font-size:12px;font-weight:600;color:var(--blue);text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px;padding-bottom:4px;border-bottom:1px solid var(--border)">Cielorrasos — Sistema Knauf / Perfiles Barbieri</div>
-        <div class="fg2" style="margin-bottom:8px">
-          <div class="field">
-            <label for="seco_ciel_m2">Superficie de cielorraso (m²)</label>
-            <input type="text" id="seco_ciel_m2" value="" inputmode="decimal"/>
-          </div>
-          <div class="field">
-            <label for="seco_ciel_tipo">Sistema de cielorraso</label>
-            <select id="seco_ciel_tipo">
-              <option value="fijo" selected>Fijo — placa de yeso Knauf / montantes 35 mm</option>
-              <option value="desmontable">Desmontable — placas 60×60 / estructura T</option>
-            </select>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- CONSTRUCCIÓN EN SECO -->
-    <div class="sec-card">
-      <div class="sec-toggle" onclick="toggleSec('seco')">
-        <div class="stitle">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
-          Construcción en seco
-        </div>
-        <svg class="arr" id="arr-seco" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
-      </div>
-      <div class="sec-body" id="sec-seco" style="display:none">
-
         <div style="font-size:12px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px">Tabiques — Sistema Knauf W111</div>
         <div class="fg2" style="margin-bottom:10px">
           <div class="field">
@@ -877,114 +831,6 @@ function calcular(){
   }
 
   // ── CONSTRUCCIÓN EN SECO ─────────────────────────────────────────────────
-  // Medidas comerciales Argentina (2024):
-  // Placa Knauf Standard: 1.20 × 2.40 m = 2.88 m² → usamos 2.88 m²/placa
-  // Placa Knauf RH (humedad): misma medida
-  // Perfil montante Barbieri 70 mm: largo 2.60 m (también hay 3.0 m)
-  // Perfil solera Barbieri 70 mm: largo 3.0 m
-  // Perfil montante Barbieri 35 mm: largo 2.60 m
-  // Perfil solera Barbieri 35 mm: largo 3.0 m
-  // Tornillo autoperforante 3.5×25 mm (placa-montante): ~35 un/m²
-  // Tornillo autoperforante 3.5×9.5 mm (placas dobles): ~12 un/m²
-  // Masilla Knauf (balde 20 kg): rinde ~25 m² de juntas
-  // Cinta de papel (rollo 50 m): ~1 rollo cada 20 m²
-  // Placas 60×60 sistema desmontable: 2.78 placas/m² → 1 caja = 8 placas = 2.88 m²
-  // Largero T principal desmontable: cada 1.20 m → 0.83 ud/m²
-  // Travesaño T secundario: cada 0.60 m → 1.67 ud/m²
-  // Perfil de borde L: perímetro → √m² × 4 × 1.10
-
-  if(tieneData(['seco_tab_m2','seco_ciel_m2'])){
-    var supTab  = nv('seco_tab_m2');
-    var supCiel = nv('seco_ciel_m2');
-    var tabTipo  = sv('seco_tab_tipo');   // 'simple' | 'doble'
-    var cielTipo = sv('seco_ciel_tipo');  // 'fijo' | 'desmontable'
-
-    // ── TABIQUES Knauf / Barbieri 70 mm ────────────────────────────────────
-    if(supTab > 0){
-      var placaM2 = 2.88; // m² por placa Knauf 1.20×2.40 m
-      var capas   = tabTipo === 'doble' ? 2 : 1; // placas por cara
-
-      // Placas de yeso: superficie × 2 caras × capas + 10% desperdicio
-      var placasTab = Math.ceil(supTab * 2 * capas / placaM2 * P.D);
-      add('Construcción en seco','Placa de yeso Knauf Standard 1.20×2.40 m', placasTab, 'unidad',
-        capas===2 ? 'Tabique doble — 2 placas/cara' : 'Tabique simple — 1 placa/cara');
-
-      // Montantes Barbieri 70 mm (2.60 m c/u): 1 cada 40 cm → 2.5 montantes/m lineal de tabique
-      // m lineales de tabique ≈ supTab / altura media (estimamos 2.60 m estándar Knauf)
-      var altTab   = 2.60; // altura estándar
-      var mLinTab  = supTab / altTab; // metros lineales de tabique
-      var montantes70 = Math.ceil(mLinTab * 2.5 * P.D);
-      add('Construcción en seco','Montante Barbieri 70 mm × 2.60 m', montantes70, 'unidad', 'c/40 cm');
-
-      // Soleras Barbieri 70 mm (3.0 m c/u): superior + inferior = 2 × m lineales
-      var soleras70 = Math.ceil(mLinTab * 2 / 3.0 * P.D);
-      add('Construcción en seco','Solera Barbieri 70 mm × 3.0 m', soleras70, 'unidad', 'Superior e inferior');
-
-      // Tornillos placa-montante 3.5×25 mm: ~35 un/m² × caras × capas
-      add('Construcción en seco','Tornillo autoperforante 3.5×25 mm', Math.ceil(supTab * 2 * capas * 12), 'unidad', 'Fijación placa-montante');
-
-      // Si doble: tornillos placa-placa 3.5×9.5 mm
-      if(capas === 2){
-        add('Construcción en seco','Tornillo autoperforante 3.5×9.5 mm', Math.ceil(supTab * 2 * 8), 'unidad', 'Unión entre placas dobles');
-      }
-
-      // Masilla Knauf (balde 20 kg): 1 cada 25 m² de juntas (aprox sup × 2 caras)
-      add('Construcción en seco','Masilla Knauf (balde 20 kg)', Math.ceil(supTab * 2 / 25 * P.D), 'unidad', 'Tomado de juntas');
-
-      // Cinta de papel (rollo 50 m): 1 cada 20 m²
-      add('Construcción en seco','Cinta de papel para juntas (rollo 50 m)', Math.ceil(supTab * 2 / 20 * P.D), 'rollo', 'Refuerzo de juntas');
-    }
-
-    // ── CIELORRASOS ────────────────────────────────────────────────────────
-    if(supCiel > 0){
-      if(cielTipo === 'fijo'){
-        // Sistema fijo Knauf / Barbieri 35 mm
-        var placaM2c = 2.88;
-        var placasCiel = Math.ceil(supCiel / placaM2c * P.D);
-        add('Construcción en seco','Placa de yeso Knauf Standard 1.20×2.40 m', placasCiel, 'unidad', 'Cielorraso fijo');
-
-        // Montantes Barbieri 35 mm (2.60 m): 1 cada 40 cm en dirección de span
-        var mont35 = Math.ceil(supCiel / 0.40 * P.D);
-        add('Construcción en seco','Montante Barbieri 35 mm × 2.60 m', mont35, 'unidad', 'c/40 cm — cielorraso fijo');
-
-        // Soleras Barbieri 35 mm (3.0 m): perimetrales
-        var perimCiel = Math.ceil(Math.sqrt(supCiel)) * 4; // estimación perímetro
-        var sol35 = Math.ceil(perimCiel / 3.0 * P.D);
-        add('Construcción en seco','Solera Barbieri 35 mm × 3.0 m', sol35, 'unidad', 'Perimetral cielorraso');
-
-        // Tornillos 3.5×25 mm: ~12 un/m²
-        add('Construcción en seco','Tornillo autoperforante 3.5×25 mm', Math.ceil(supCiel * 12), 'unidad', 'Fijación placa-montante cielorraso');
-
-        // Masilla + cinta
-        add('Construcción en seco','Masilla Knauf (balde 20 kg)', Math.ceil(supCiel / 25 * P.D), 'unidad', 'Juntas cielorraso');
-        add('Construcción en seco','Cinta de papel para juntas (rollo 50 m)', Math.ceil(supCiel / 20 * P.D), 'rollo', 'Juntas cielorraso');
-
-      } else {
-        // Sistema desmontable — placas 60×60 / estructura T
-        // Placa 60×60: 1 m² = 2.78 placas → caja de 8 = 2.88 m²
-        var cajasCiel = Math.ceil(supCiel / 2.88 * P.D); // cajas de 8 placas 60×60
-        add('Construcción en seco','Placa desmontable 60×60 cm (caja × 8 un)', cajasCiel, 'caja', '~2.88 m²/caja');
-
-        // Largero T principal (L=3.60 m): separados 1.20 m → 0.83 ud/m²
-        add('Construcción en seco','Largero T principal 3.60 m', Math.ceil(supCiel * 0.83 * P.D), 'unidad', 'c/1.20 m');
-
-        // Travesaño T secundario (L=0.60 m): separados 0.60 m → 1.67 ud/m²
-        add('Construcción en seco','Travesaño T secundario 0.60 m', Math.ceil(supCiel * 1.67 * P.D), 'unidad', 'c/60 cm');
-
-        // Perfil de borde L (3.0 m): perimetral
-        var perimD = Math.ceil(Math.sqrt(supCiel)) * 4;
-        add('Construcción en seco','Perfil de borde L 3.0 m', Math.ceil(perimD / 3.0 * P.D), 'unidad', 'Perimetral');
-
-        // Tarugos/tornillos para perfil de borde: 1 cada 50 cm
-        add('Construcción en seco','Tarugo + tornillo fijación borde', Math.ceil(perimD * 2), 'unidad', 'c/50 cm');
-
-        // Tirantes suspensión para largeros: 1 cada 1.20 m²
-        add('Construcción en seco','Tirante de suspensión', Math.ceil(supCiel / 1.44 * P.D), 'unidad', '1 cada 1.44 m²');
-      }
-    }
-  }
-
-  // ── CONSTRUCCIÓN EN SECO ─────────────────────────────────────────────────
   var tabSup  = nv('tab_sup');
   var tabAlt  = nv('tab_alt') || 2.60;
   var cielSup = nv('ciel_sup');
@@ -1039,7 +885,11 @@ function calcular(){
       add('Construcción en seco','Solera Barbieri 35 mm × 2,60 m',
         Math.ceil(perimCiel / 2.60 * P.D), 'unidad', 'Perfil perimetral');
       add('Construcción en seco','Tornillo autoperforante punta aguja 25 mm',
-        Math.ceil(cielSup * 5 * P.D), 'unidad', '5/m²');
+        Math.ceil(cielSup * 5 * P.D), 'unidad', '5/m² — placa a montante');
+      add('Construcción en seco','Tornillo T1 metal-metal',
+        Math.ceil(cielSup / 0.40 * 2 * P.D), 'unidad', 'Unión montante-solera perimetral');
+      add('Construcción en seco','Tornillo 6×1¾" + tarugo nº8',
+        Math.ceil(perimCiel * 2), 'unidad', 'Fijación solera perimetral a pared c/50 cm');
       add('Construcción en seco','Masilla Knauf (balde 32 kg)',
         Math.ceil(cielSup / 40 * P.D), 'unidad', '~40 m²/balde — cielorraso');
       add('Construcción en seco','Cinta papel microperforado Knauf (rollo 75 m)',
