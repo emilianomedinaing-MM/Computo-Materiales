@@ -304,7 +304,7 @@ body{background:var(--bg3);color:var(--text);font-family:var(--font);font-size:1
           <div class="field"><label for="rev_ext">Sup. revoque exterior (m²)</label><input type="text" id="rev_ext" value="" inputmode="decimal"/></div>
           <div class="field"><label for="rev_int">Sup. revoque interior (m²)</label><input type="text" id="rev_int" value="" inputmode="decimal"/></div>
         </div>
-        <div class="hint" style="margin-top:2px">Incluye revoque grueso Maestro Holcim + Fino a la Cal Stuko en cada caso</div>
+        <div class="hint" style="margin-top:2px">Incluye revoque grueso (Cemento Maestro Holcim) + Fino a la Cal Stuko en cada caso</div>
       </div>
     </div>
 
@@ -470,7 +470,7 @@ const CATS = [
     {k:'plat_alambre_kgM2', label:'Alambre recocido',       unit:'kg/m²', min:0.05, max:0.5, step:0.01}
   ]},
   {id:'cim',label:'🏗️ Cimientos',rows:[
-    {k:'cim_cemAlb_kgM3',  label:'Cemento de albañilería', unit:'kg/m³', min:50,  max:300, step:5},
+    {k:'cim_cemAlb_kgM3',  label:'Cem. albañilería Holcim Maestro', unit:'kg/m³', min:50,  max:300, step:5},
     {k:'cim_portland_kgM3',label:'Cemento Portland',       unit:'kg/m³', min:0,   max:100, step:5},
     {k:'cim_arena_m3M3',   label:'Arena gruesa',           unit:'m³/m³', min:0.2, max:0.8, step:0.01},
     {k:'cim_granza_m3M3',  label:'Granza 10/20',           unit:'m³/m³', min:0.3, max:0.9, step:0.01},
@@ -706,7 +706,7 @@ function calcular(){
   if(tieneData(['cim_long','cim_ancho','cim_prof'])){
     var vol2 = nv('cim_long') * nv('cim_ancho') * nv('cim_prof');
     if(vol2 > 0){
-      add('Cimientos','Cemento de albañilería (bolsa 25 kg)', bol25(vol2*P.cim_cemAlb_kgM3*P.D), 'bolsa', '~'+P.cim_cemAlb_kgM3+' kg/m³');
+      add('Cimientos','Cemento de albañilería Holcim Maestro (bolsa 25 kg)', bol25(vol2*P.cim_cemAlb_kgM3*P.D), 'bolsa', '~'+P.cim_cemAlb_kgM3+' kg/m³');
       add('Cimientos','Cemento Portland (bolsa 25 kg)', bol25(vol2*P.cim_portland_kgM3*P.D), 'bolsa', '~'+P.cim_portland_kgM3+' kg/m³ refuerzo');
       add('Cimientos','Arena gruesa', arena25(vol2*P.cim_arena_m3M3*P.D), 'm³');
       add('Cimientos','Granza / piedra partida 10/20', arena25(vol2*P.cim_granza_m3M3*P.D), 'm³');
@@ -733,7 +733,7 @@ function calcular(){
       var volMort = supM * volMortM2[tLad];
 
       add('Mampostería', nTab[tLad], Math.ceil(supM * rTab[tLad] * P.D), 'unidad', rTab[tLad]+' un./m² — neta: '+supM.toFixed(1)+' m²');
-      add('Mampostería','Cemento de albañilería (bolsa 25 kg)', bol25(volMort * cemKgM3[dosif] * P.D), 'bolsa', 'Mortero '+dosLabel[dosif]+' — ~'+Math.round(cemKgM3[dosif])+' kg/m³');
+      add('Mampostería','Cemento de albañilería Holcim Maestro (bolsa 25 kg)', bol25(volMort * cemKgM3[dosif] * P.D), 'bolsa', 'Mortero '+dosLabel[dosif]+' — ~'+Math.round(cemKgM3[dosif])+' kg/m³');
       add('Mampostería','Arena gruesa', arena25(volMort * areM3M3[dosif] * P.D), 'm³', 'Mortero asiento dosif. '+dosLabel[dosif]);
 
       // Viga encadenada
@@ -768,7 +768,7 @@ function calcular(){
 
       // Revoque grueso exterior: Maestro Holcim + arena, e=2 cm
       // 1 bolsa 25 kg rinde ~2.9 m² a e=2 cm
-      add('Revoques','Revoque grueso Maestro Holcim (bolsa 25 kg)', Math.ceil(ext / 2.9 * P.D), 'bolsa', 'Revoque grueso exterior e=2 cm');
+      add('Revoques','Cemento de albañilería Holcim Maestro (bolsa 25 kg)', Math.ceil(ext / 2.9 * P.D), 'bolsa', 'Revoque grueso exterior e=2 cm');
       add('Revoques','Arena gruesa', arena25(ext * 0.014 * P.D), 'm³', 'Revoque grueso exterior');
 
       // Fino exterior: Stuko exterior Klaukol — siempre incluido
@@ -777,7 +777,7 @@ function calcular(){
 
     if(intr > 0){
       // Revoque grueso interior: Maestro Holcim + arena, e=2 cm
-      add('Revoques','Revoque grueso Maestro Holcim (bolsa 25 kg)', Math.ceil(intr / 2.9 * P.D), 'bolsa', 'Revoque grueso interior e=2 cm');
+      add('Revoques','Cemento de albañilería Holcim Maestro (bolsa 25 kg)', Math.ceil(intr / 2.9 * P.D), 'bolsa', 'Revoque grueso interior e=2 cm');
       add('Revoques','Arena gruesa', arena25(intr * 0.014 * P.D), 'm³', 'Revoque grueso interior');
 
       // Fino interior: Stuko interior Klaukol — siempre incluido
@@ -795,7 +795,7 @@ function calcular(){
       // Contrapiso: misma fórmula que cimientos (hormigón pobre)
       // volumen = sup × espesor(m)
       var volCp = supP * (espCp / 100);
-      add('Contrapisos','Cemento de albañilería (bolsa 25 kg)', bol25(volCp * P.cim_cemAlb_kgM3 * P.D), 'bolsa', '~'+P.cim_cemAlb_kgM3+' kg/m³ — contrapiso e='+espCp+' cm');
+      add('Contrapisos','Cemento de albañilería Holcim Maestro (bolsa 25 kg)', bol25(volCp * P.cim_cemAlb_kgM3 * P.D), 'bolsa', '~'+P.cim_cemAlb_kgM3+' kg/m³ — contrapiso e='+espCp+' cm');
       add('Contrapisos','Cemento Portland (bolsa 25 kg)', bol25(volCp * P.cim_portland_kgM3 * P.D), 'bolsa', '~'+P.cim_portland_kgM3+' kg/m³ refuerzo');
       add('Contrapisos','Arena gruesa', arena25(volCp * P.cim_arena_m3M3 * P.D), 'm³', 'Contrapiso');
       add('Contrapisos','Granza / piedra partida 10/20', arena25(volCp * P.cim_granza_m3M3 * P.D), 'm³', 'Contrapiso');
