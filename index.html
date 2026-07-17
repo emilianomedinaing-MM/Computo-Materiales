@@ -304,16 +304,7 @@ body{background:var(--bg3);color:var(--text);font-family:var(--font);font-size:1
           <div class="field"><label for="rev_ext">Sup. revoque exterior (m²)</label><input type="text" id="rev_ext" value="" inputmode="decimal"/></div>
           <div class="field"><label for="rev_int">Sup. revoque interior (m²)</label><input type="text" id="rev_int" value="" inputmode="decimal"/></div>
         </div>
-        <div style="display:flex;flex-direction:column;gap:8px">
-          <label style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--text);cursor:pointer">
-            <input type="checkbox" id="chk_fino_ext" style="width:16px;height:16px;accent-color:var(--blue);cursor:pointer"/>
-            Incluir revoque fino exterior (Stuko Klaukol)
-          </label>
-          <label style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--text);cursor:pointer">
-            <input type="checkbox" id="chk_fino_int" style="width:16px;height:16px;accent-color:var(--blue);cursor:pointer"/>
-            Incluir revoque fino interior (Stuko Klaukol)
-          </label>
-        </div>
+        <div class="hint" style="margin-top:2px">Incluye revoque grueso Maestro Holcim + Fino a la Cal Stuko en cada caso</div>
       </div>
     </div>
 
@@ -768,43 +759,29 @@ function calcular(){
   if(tieneData(['rev_ext','rev_int'])){
     var ext  = nv('rev_ext');
     var intr = nv('rev_int');
-    var finoExt = document.getElementById('chk_fino_ext').checked;
-    var finoInt = document.getElementById('chk_fino_int').checked;
-
     if(ext > 0){
       // Azotado impermeable exterior: cemento Portland + hidrofugo, e=0.5 cm
-      // ~350 kg Portland/m³ → 350 × 0.005 = 1.75 kg/m²
-      var azot_port_kgM2  = 1.75;  // kg Portland por m² de azotado
-      var azot_hid_litM2  = 0.15;  // litros hidrofugo por m² (diluido 1:10)
+      var azot_port_kgM2 = 1.75;  // ~350 kg Portland/m³ × 0.005 m
+      var azot_hid_litM2 = 0.15;  // litros hidrofugo por m² (diluido 1:10)
       add('Revoques','Cemento Portland (bolsa 25 kg)', bol25(ext * azot_port_kgM2 * P.D), 'bolsa', 'Azotado impermeable e=0.5 cm');
-      add('Revoques','Hidrofugo líquido (lt)', Math.ceil(ext * azot_hid_litM2 * P.D), 'litro', 'Azotado impermeable');
+      add('Revoques','Hidrofugo líquido', Math.ceil(ext * azot_hid_litM2 * P.D), 'litro', 'Azotado impermeable');
 
-      // Revoque grueso exterior con Maestro Holcim + arena, e=2 cm
-      // Maestro Holcim: ~8.5 kg/m² a e=2 cm (según ficha técnica Holcim: 1 bolsa 40 kg rinde ~4.7 m² a 2 cm)
-      // Usamos bolsa 25 kg → rinde ~2.9 m² a 2 cm
-      var maestro_m2Bol25 = 2.9;
-      // Arena: dosif. 1:3 (1 parte Maestro : 3 arena) → ~0.014 m³ arena/m² a e=2 cm
-      var rev_arena_m3M2_ext = 0.014;
-      add('Revoques','Revoque grueso Maestro Holcim (bolsa 25 kg)', Math.ceil(ext / maestro_m2Bol25 * P.D), 'bolsa', 'Revoque grueso exterior e=2 cm — ~'+maestro_m2Bol25+' m²/bol');
-      add('Revoques','Arena gruesa', arena25(ext * rev_arena_m3M2_ext * P.D), 'm³', 'Revoque grueso exterior');
+      // Revoque grueso exterior: Maestro Holcim + arena, e=2 cm
+      // 1 bolsa 25 kg rinde ~2.9 m² a e=2 cm
+      add('Revoques','Revoque grueso Maestro Holcim (bolsa 25 kg)', Math.ceil(ext / 2.9 * P.D), 'bolsa', 'Revoque grueso exterior e=2 cm');
+      add('Revoques','Arena gruesa', arena25(ext * 0.014 * P.D), 'm³', 'Revoque grueso exterior');
 
-      // Fino exterior (optativo)
-      if(finoExt){
-        add('Revoques','Stuko Klaukol (bolsa 25 kg)', Math.ceil(ext / P.rev_stuko_m2Bol * P.D), 'bolsa', 'Fino exterior ~'+P.rev_stuko_m2Bol+' m²/bol');
-      }
+      // Fino exterior: Stuko exterior Klaukol — siempre incluido
+      add('Revoques','Fino a la Cal Stuko Exterior Klaukol (bolsa 25 kg)', Math.ceil(ext / P.rev_stuko_m2Bol * P.D), 'bolsa', '~'+P.rev_stuko_m2Bol+' m²/bol');
     }
 
     if(intr > 0){
-      // Revoque grueso interior con Maestro Holcim + arena, e=2 cm
-      var maestro_m2Bol25_int = 2.9;
-      var rev_arena_m3M2_int  = 0.014;
-      add('Revoques','Revoque grueso Maestro Holcim (bolsa 25 kg)', Math.ceil(intr / maestro_m2Bol25_int * P.D), 'bolsa', 'Revoque grueso interior e=2 cm — ~'+maestro_m2Bol25_int+' m²/bol');
-      add('Revoques','Arena gruesa', arena25(intr * rev_arena_m3M2_int * P.D), 'm³', 'Revoque grueso interior');
+      // Revoque grueso interior: Maestro Holcim + arena, e=2 cm
+      add('Revoques','Revoque grueso Maestro Holcim (bolsa 25 kg)', Math.ceil(intr / 2.9 * P.D), 'bolsa', 'Revoque grueso interior e=2 cm');
+      add('Revoques','Arena gruesa', arena25(intr * 0.014 * P.D), 'm³', 'Revoque grueso interior');
 
-      // Fino interior (optativo)
-      if(finoInt){
-        add('Revoques','Stuko Klaukol (bolsa 25 kg)', Math.ceil(intr / P.rev_stuko_m2Bol * P.D), 'bolsa', 'Fino interior ~'+P.rev_stuko_m2Bol+' m²/bol');
-      }
+      // Fino interior: Stuko interior Klaukol — siempre incluido
+      add('Revoques','Fino a la Cal Stuko Interior Klaukol (bolsa 25 kg)', Math.ceil(intr / P.rev_stuko_m2Bol * P.D), 'bolsa', '~'+P.rev_stuko_m2Bol+' m²/bol');
     }
   }
 
