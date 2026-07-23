@@ -425,7 +425,7 @@ const ADMIN_PWD = 'medina2024';
 
 // ── PARÁMETROS POR DEFECTO ─────────────────────────────────────────────────
 const DEFAULT_P = {
-  D:1.10,
+  D:1.00,
   plat_malla_area:6, plat_malla_solape:1.10, plat_sep_porM2:2, plat_alambre_kgM2:0.15,
   cim_cemAlb_kgM3:180, cim_portland_kgM3:25, cim_arena_m3M3:0.45, cim_granza_m3M3:0.65, cim_agua_m3M3:0.18,
   mamp_comun15_m2:60, mamp_comun30_m2:120, mamp_cer8_m2:15, mamp_cer12_m2:15, mamp_palmar12_m2:15, mamp_palmar18_m2:15, mamp_bloque_m2:12.5,
@@ -462,7 +462,7 @@ cargarParams();
 // ── CATEGORÍAS PARÁMETROS ──────────────────────────────────────────────────
 const CATS = [
   {id:'general',label:'⚙️ General',rows:[
-    {k:'D',label:'Factor de desperdicio general',unit:'factor',min:1,max:1.5,step:0.01,hint:'Ej: 1.10 = 10%'}
+    {k:'D',label:'Factor de desperdicio general',unit:'factor',min:1,max:1.5,step:0.01,hint:'1.00 = sin desperdicio · 1.10 = 10%'}
   ]},
   {id:'platea',label:'🟫 Platea de fundación',rows:[
     {k:'plat_malla_area',   label:'Área panel de malla',    unit:'m²',    min:1,    max:20,  step:0.5},
@@ -963,7 +963,9 @@ function calcular(){
     showTab('res'); return;
   }
 
-  var html = '<div class="sum-note">Cantidades con '+Math.round((P.D-1)*100)+'% de desperdicio incluido. Bolsas en presentación comercial 25 kg. Verificar con el profesional antes de hacer el pedido.</div>';
+  var despPorc = Math.round((P.D-1)*100);
+  var despTexto = despPorc > 0 ? 'Cantidades con '+despPorc+'% de desperdicio incluido. ' : '';
+  var html = '<div class="sum-note">' + despTexto + 'Bolsas en presentación comercial 25 kg. Verificar con el profesional antes de hacer el pedido.</div>';
   html += '<div style="margin-bottom:1rem"><div style="font-size:16px;font-weight:600">'+proj+'</div><div style="font-size:12px;color:var(--text2);margin-top:3px">Cómputo generado el '+today+'</div></div>';
 
   // Detalle por rubro
