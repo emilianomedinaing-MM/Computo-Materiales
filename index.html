@@ -745,13 +745,13 @@ function calcular(){
         add('Mampostería','Cemento Portland (bolsa 25 kg)', bol25(volEnc * P.mamp_enc_cem_kgM3 * P.D), 'bolsa', 'Viga encadenada sup.');
         add('Mampostería','Arena gruesa', arena25(volEnc * 0.55), 'm³', 'Viga encadenada');
         add('Mampostería','Piedra partida 6/20', arena25(volEnc * 0.75), 'm³', 'Viga encadenada');
-        add('Mampostería','Hierro Ø10 mm (varilla 12 m)', Math.ceil(lMuro * 2 / 12 * P.D), 'unidad', '2Ø10 longitudinales');
+        add('Mampostería','Hierro Ø8 mm (varilla 12 m)', Math.ceil(lMuro * 4 / 12 * P.D), 'unidad', '4Ø8 longitudinales — viga encadenada');
         add('Mampostería','Hierro Ø6 mm (varilla 12 m)', Math.ceil(lMuro / 0.2 * 0.6 / 12 * P.D), 'unidad', 'Estribos c/20 cm');
       }
       // Columnas
       var col = nv('cant_col');
       if(col > 0){
-        add('Mampostería','Hierro Ø12 mm (varilla 12 m)', Math.ceil(col * 4 * hMuro / 12 * P.D), 'unidad', 'Columnas 4Ø12');
+        add('Mampostería','Hierro Ø10 mm (varilla 12 m)', Math.ceil(col * 4 * hMuro / 12 * P.D), 'unidad', 'Columnas 4Ø10');
         add('Mampostería','Hierro Ø6 mm (varilla 12 m)', Math.ceil(col * hMuro / 0.2 * 0.8 / 12 * P.D), 'unidad', 'Estribos col. c/20 cm');
       }
     }
